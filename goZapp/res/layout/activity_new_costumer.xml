@@ -6,7 +6,12 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:padding="@dimen/padding_medium" >
 
         <TextView
             android:id="@+id/textView1"
@@ -16,7 +21,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/nameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Full Name"
@@ -26,32 +31,33 @@
         </EditText>
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/phoneText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Phone"
             android:inputType="phone" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/emailText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:id="@+id/editText4"
+            android:id="@+id/notesText"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
+            android:layout_weight="0.65"
             android:hint="Notes"
             android:inputType="textMultiLine" />
 
         <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
+            android:id="@+id/CreateCostumerBtn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create Costumer" />
-
+            android:text="Create Costumer"
+            android:onClick="onCreateCostumer" />
     </LinearLayout>
 
 </RelativeLayout>
