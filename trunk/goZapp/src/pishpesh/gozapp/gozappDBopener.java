@@ -16,39 +16,65 @@ public class gozappDBopener extends SQLiteOpenHelper {
 	public static final String COLUMN_EMAIL = "email";
 	public static final String COLUMN_CREDIT = "credit";
 	public static final String COLUMN_NOTES = "notes";
-	public static final String TABLE_CLASSES = "classes";
-	public static final String COLUMN_TIME = "time";
 
-	private static final String DATABASE_NAME = "goZapp.db";
-	private static final int DATABASE_VERSION = 1;
+	public static final String TABLE_CLASSES = "classes";
+
+	public static final String COLUMN_LOCATION = "location";
+	public static final String COLUMN_DATETIME = "datetime";
+
+
+	public static final String TABLE_CosInClass = "Costumer_in_Class";
+
+	public static String COLUMN_CostumerID="CostumerID";
+	public static String COLUMN_ClassID="ClassID";
+
+
+	public static final String DATABASE_NAME = "goZapp.db";
+	public static final int DATABASE_VERSION = 1;
 
 	// Database creation sql statement
-	private static final String DATABASE_CREATE = 
+	private static final String COSTUMERS_CREATE = 
 			"create table "
 					+ TABLE_COSTUMERS 
 					+ "(" 
 					+ COLUMN_ID	+ " integer primary key autoincrement, " 
 					+ COLUMN_NAME + " text not null, "
 					+ COLUMN_PHONE + " integer not null, "
-					+ COLUMN_EMAIL + " text, "
-					+ COLUMN_CREDIT + " integer default 0, "
-					+ COLUMN_NOTES + " text"
-					+");"
-
-					+"create table "
+					+ COLUMN_EMAIL + " text, "					
+					+ COLUMN_NOTES + " text, "
+					+ COLUMN_CREDIT + " integer default 0"
+					+");";
+	private static final String CLASSES_CREATE =
+			"create table "
 					+ TABLE_CLASSES
 					+ "(" 
 					+ COLUMN_ID	+ " integer primary key autoincrement, "						
-					+ COLUMN_TIME + " text not null"
+					+ COLUMN_LOCATION + " text not null, "
+					+ COLUMN_DATETIME + " text not null"
+					+");";
+
+	private static final String CosInClass_CREATE =
+			"create table "
+					+ TABLE_CosInClass
+					+ "(" 
+					+ COLUMN_ID	+ " integer primary key autoincrement, "						
+					+ COLUMN_CostumerID + " integer not null, "
+					+ COLUMN_ClassID + " integer not null, "
+					+ "FOREIGN KEY("+COLUMN_CostumerID+") REFERENCES "+TABLE_COSTUMERS+"("+COLUMN_ID+"), "
+					+ "FOREIGN KEY("+COLUMN_ClassID+") REFERENCES "+TABLE_CLASSES+"("+COLUMN_ID+")"
 					+");";
 
 	public gozappDBopener(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		//context.deleteDatabase(DATABASE_NAME);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		database.execSQL(DATABASE_CREATE);
+
+		database.execSQL(COSTUMERS_CREATE);
+		database.execSQL(CLASSES_CREATE);
+		database.execSQL(CosInClass_CREATE);
 	}
 
 	@Override

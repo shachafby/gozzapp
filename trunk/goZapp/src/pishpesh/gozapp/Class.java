@@ -3,8 +3,9 @@ package pishpesh.gozapp;
 public class Class {
 
 	private long id;
-	private String time;
-	private String [] costumers;
+	private String location;
+	private String datetime;
+	
 	
 	public long getId() {
 		return id;
@@ -12,16 +13,30 @@ public class Class {
 	public void setId(long id) {
 		this.id = id;
 	}
+	public String getLocation() {
+		return location;
+	}
+	public void setLocation(String location) {
+		this.location = location;
+	}
+	public String getDatetime() {
+		return datetime;
+	}
+	public void setDatetime(String datetime) {
+		this.datetime = datetime;
+	}
+	
+	@Override
+	public String toString() {
+		return datetime+" @"+location;
+	}
+	
+	public String getDate() {
+		String [] s = datetime.split(" ");
+		return s[0];
+	}
 	public String getTime() {
-		return time;
-	}
-	public void setTime(String time) {
-		this.time = time;
-	}
-	public String[] getCostumers() {
-		return costumers;
-	}
-	public void setCostumers(String[] costumers) {
-		this.costumers = costumers;
+		String [] s = datetime.split(" ");
+		return s[1];
 	}
 }

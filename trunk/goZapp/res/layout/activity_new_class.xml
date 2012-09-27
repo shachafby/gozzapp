@@ -6,37 +6,76 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:padding="@dimen/padding_medium" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/newClassTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="New Class"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
-        <DatePicker
-            android:id="@+id/datePicker1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:calendarViewShown="false" />
-
-        <TimePicker
-            android:id="@+id/timePicker1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <Spinner
-            android:id="@+id/spinner1"
+            android:id="@+id/locationSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/button1"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="Create Class" />
+            android:layout_height="wrap_content" >
+
+            <EditText
+                android:id="@+id/newDateText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="no date"
+                android:inputType="date" >
+
+                <requestFocus />
+            </EditText>
+
+            <EditText
+                android:id="@+id/newTimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="no time"
+                android:inputType="time" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="262dp"
+            android:layout_weight="0.70"
+            android:choiceMode="multipleChoice" >
+        </ListView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/counterText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#000"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <Button
+                android:id="@+id/createClassBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onCreateClass"
+                android:text="Create Class" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
