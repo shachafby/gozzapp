@@ -18,7 +18,9 @@ import android.text.TextWatcher;
 
 public class NewCostumerActivity extends Activity {
 
-	private goZappDataSource datasource;
+	goZappApplication appState = ((goZappApplication)this.getApplication());
+	
+	//private goZappDataSource datasource;
 
 	private TextView name;
 	private TextView phone;
@@ -32,8 +34,8 @@ public class NewCostumerActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE );
 		setContentView(R.layout.activity_new_costumer);
 
-		datasource = new goZappDataSource(this);
-		datasource.open();
+		//datasource = new goZappDataSource(this);
+		//datasource.open();
 
 		name = (TextView) findViewById(R.id.nameText);
 		phone = (TextView) findViewById(R.id.phoneText);
@@ -74,14 +76,14 @@ public class NewCostumerActivity extends Activity {
 		Costumer costumer = null;
 
 		// Save the new comment to the database
-		costumer = datasource.createCostumer(
+		costumer = appState.datasource.createCostumer(
 				name.getText().toString(),
 				phone.getText().toString(),
 				email.getText().toString(),
 				notes.getText().toString());
 		
 		Intent i = new Intent(this,CostumersActivity.class);
-    	
+    	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     	startActivity(i);
 
 
@@ -89,13 +91,13 @@ public class NewCostumerActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		datasource.open();
+		//datasource.open();
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
-		datasource.close();
+		//datasource.close();
 		super.onPause();
 	}
 

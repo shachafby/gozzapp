@@ -11,6 +11,9 @@ import android.support.v4.app.NavUtils;
 
 public class MainActivity extends Activity {
 
+
+	goZappApplication appState = ((goZappApplication)this.getApplication());
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -18,6 +21,10 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE );
         
         setContentView(R.layout.activity_main);
+        
+
+		appState.datasource.open();
+
     }
 
     @Override
