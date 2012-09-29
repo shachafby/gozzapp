@@ -15,6 +15,7 @@ public class goZappDataSource {
 	// Database fields
 	private SQLiteDatabase database;
 	private gozappDBopener dbHelper;
+
 	private String[] costumerColumns = { 
 			gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_ID,
 			gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_NAME,
@@ -29,8 +30,6 @@ public class goZappDataSource {
 			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_LOCATION,
 			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_DATETIME,
 	};
-
-
 
 	public goZappDataSource(Context context) {
 		dbHelper = new gozappDBopener(context);
@@ -145,6 +144,7 @@ public class goZappDataSource {
 				gozappDBopener.COLUMN_ID+"=?",
 				new String[]{String.valueOf(costumerID)}
 				);
+		
 
 	}
 
@@ -181,6 +181,9 @@ public class goZappDataSource {
 
 		long insertId = database.insert(gozappDBopener.TABLE_CosInClass, null, values);
 
+		updateCredit(costumer.getId(), costumer.getCredit() - 1);
+		costumer.setCredit(costumer.getCredit()-1);
+		
 		return (insertId!=-1);
 	}
 
@@ -254,6 +257,33 @@ public class goZappDataSource {
 				res+=", ";
 		}
 		return res;
+	}
+
+	public int updateClass(Class c) {
+
+		ContentValues values = new ContentValues();
+
+		values.put(gozappDBopener.COLUMN_LOCATION, c.getLocation());
+		values.put(gozappDBopener.COLUMN_DATETIME, c.getDatetime());
+
+		return database.update(
+				gozappDBopener.TABLE_CLASSES, 
+				values, 
+				gozappDBopener.COLUMN_ID+"=?",
+				new String[]{String.valueOf(c.getId())}
+				);
+	}
+
+
+	public int updateCostumersInClass(Class selectedClass, List<Costumer> costumersInclass) {
+
+		database.delete(gozappDBopener.TABLE_CosInClass, gozappDBopener.COLUMN_ClassID+"=?"	, 
+				new String[]{String.valueOf(selectedClass.getId())});
+
+		for (Costumer costumer : costumersInclass)
+			addCoustumerToClass(selectedClass,costumer);
+
+		return 0;
 	}
 
 
