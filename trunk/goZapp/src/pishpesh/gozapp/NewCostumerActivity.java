@@ -70,6 +70,8 @@ public class NewCostumerActivity extends Activity {
 				
 			}
 		});
+		name.setFocusableInTouchMode(true);
+		name.requestFocus();
 	}
 
 	public void onCreateCostumer(View view) {

@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -39,10 +41,13 @@ public class NewClassActivity extends ListActivity {
 	private EditText time;
 
 	private TextView title;
+	private TextView counter;
 
 	private ListView classList;
 
 	private Spinner locationSpinner;
+
+	private SparseBooleanArray checked;
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,7 @@ public class NewClassActivity extends ListActivity {
         title = (TextView)findViewById(R.id.newClassTitle);
         classList = getListView();
         locationSpinner = (Spinner)findViewById(R.id.locationSpinner);
+        counter = (TextView)findViewById(R.id.counterText);
         
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
@@ -72,6 +78,26 @@ public class NewClassActivity extends ListActivity {
 		classList.setFocusableInTouchMode(true);
 		classList.requestFocus();
 		
+		classList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+
+		    	checked = classList.getCheckedItemPositions();
+		    	
+		    	int cnt=0;
+		    	
+		    	for (int i = 0; i < checked.size(); i++) {
+					if(checked.valueAt(i))
+						cnt++;
+				}
+		    	
+		    	counter.setText("# "+cnt);
+				
+			}
+		});
+		
 		ArrayAdapter aaadapter = ArrayAdapter.createFromResource(this, R.array.Locations, android.R.layout.simple_spinner_item); 
 		aaadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		locationSpinner.setAdapter(aaadapter);
@@ -83,19 +109,26 @@ public class NewClassActivity extends ListActivity {
         return true;
     }
     
+    public void onListClick(View v){
+    	
+    	checked = classList.getCheckedItemPositions();
+    	
+    	counter.setText("# "+checked.size());
+    }
+        
     public void onCreateClass(View v){
     	
     	custumers.clear();
     	
-    	SparseBooleanArray checked = classList.getCheckedItemPositions();
+    	checked = classList.getCheckedItemPositions();
     	
     	for(int i=0;i<checked.size();i++){
     		if(checked.valueAt(i)==true)
-    			custumers.add(appState.costumers.get(i));
+    			custumers.add((Costumer)classList.getAdapter().getItem(checked.keyAt(i)));
     	}
     	
     	Class newClass = appState.datasource.createClass(locationSpinner.getSelectedItem().toString(), date.getText().toString(),time.getText().toString(),custumers);
-    	
+    	    	
     	Intent i = new Intent(this,ClassesActivity.class);
     	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     	startActivity(i);
