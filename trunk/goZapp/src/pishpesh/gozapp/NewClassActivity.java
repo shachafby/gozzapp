@@ -3,6 +3,7 @@ package pishpesh.gozapp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.os.Bundle;
@@ -23,11 +24,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ResourceCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.support.v4.app.NavUtils;
 
 public class NewClassActivity extends ListActivity {
@@ -36,9 +39,9 @@ public class NewClassActivity extends ListActivity {
 	
 	private List<Costumer> custumers = new ArrayList<Costumer>(); 
 	
-    private EditText date;
+    private DatePicker date;
 	private Button createBtn;
-	private EditText time;
+	private TimePicker time;
 
 	private TextView title;
 	private TextView counter;
@@ -55,20 +58,15 @@ public class NewClassActivity extends ListActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE );
         setContentView(R.layout.activity_new_class);
         
-        date = (EditText)findViewById(R.id.newDateText);
-        time = (EditText)findViewById(R.id.newTimeText);
+        date = (DatePicker)findViewById(R.id.datePicker1);
+        time = (TimePicker)findViewById(R.id.timePicker1);
+        time.setIs24HourView(true);
+        
         createBtn = (Button)findViewById(R.id.createClassBtn);
         title = (TextView)findViewById(R.id.newClassTitle);
         classList = getListView();
         locationSpinner = (Spinner)findViewById(R.id.locationSpinner);
         counter = (TextView)findViewById(R.id.counterText);
-        
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat tf = new SimpleDateFormat("HH:00");
- 
-        date.setText(df.format(c.getTime()));
-        time.setText(tf.format(c.getTime()));
         
         appState.costumers = appState.datasource.getAllCostumers();
 
@@ -127,7 +125,16 @@ public class NewClassActivity extends ListActivity {
     			custumers.add((Costumer)classList.getAdapter().getItem(checked.keyAt(i)));
     	}
     	
-    	Class newClass = appState.datasource.createClass(locationSpinner.getSelectedItem().toString(), date.getText().toString(),time.getText().toString(),custumers);
+//    	String dStr = date.getYear()+"-"+date.getMonth()+"-"+date.getDayOfMonth();
+//    	String tStr = time.getCurrentHour()+":"+time.getCurrentMinute();
+
+    	Date d = new Date(date.getYear()-1900, date.getMonth(), date.getDayOfMonth(), time.getCurrentHour(), time.getCurrentMinute());
+    	
+    	String dStr = new SimpleDateFormat("yyyy-MM-dd").format(d);
+    	
+    	String tStr = new SimpleDateFormat("HH:mm").format(d);
+    	    	
+    	Class newClass = appState.datasource.createClass(locationSpinner.getSelectedItem().toString(), dStr,tStr,custumers);
     	    	
     	Intent i = new Intent(this,ClassesActivity.class);
     	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
