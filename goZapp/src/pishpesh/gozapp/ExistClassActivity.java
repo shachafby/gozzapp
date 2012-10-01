@@ -18,12 +18,14 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TimePicker;
 import android.support.v4.app.NavUtils;
 
 public class ExistClassActivity extends ListActivity {
@@ -32,9 +34,9 @@ public class ExistClassActivity extends ListActivity {
 
 	private boolean canEditMode=false;
 
-	private EditText date;
+	private DatePicker date;
 	private Button editBtn;
-	private EditText time;
+	private TimePicker time;
 	private ListView costumersList;
 	private Spinner locationSpinner;
 	private List<Costumer> costumersInclass;
@@ -46,28 +48,23 @@ public class ExistClassActivity extends ListActivity {
 
 	protected SparseBooleanArray checked;
 
-	@SuppressWarnings("static-access")
+	@SuppressWarnings({ "static-access", "deprecation" })
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE );
 		setContentView(R.layout.activity_exist_class);
 
-		date = (EditText)findViewById(R.id.exDateText);
-		time = (EditText)findViewById(R.id.exTimeText);
+		date = (DatePicker)findViewById(R.id.datePicker1);
+		time = (TimePicker)findViewById(R.id.timePicker1);
+		time.setIs24HourView(true);
+        
 		editBtn = (Button)findViewById(R.id.exClassEditBtn);
 
 		costumersList = getListView();
 		locationSpinner = (Spinner)findViewById(R.id.exLocationSpinner);
 		counter = (TextView)findViewById(R.id.counterText);
         
-
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat tf = new SimpleDateFormat("HH:00");
-
-		date.setText(appState.selectedClass.getDate());
-		time.setText(appState.selectedClass.getTime());
-
 		appState.costumers = appState.datasource.getAllCostumers();
 
 		adapter = new ArrayAdapter<Costumer>(this,
@@ -75,7 +72,14 @@ public class ExistClassActivity extends ListActivity {
 		setListAdapter(adapter);
 
 		costumersInclass = appState.datasource.getCostumerInClass(appState.selectedClass);
-
+		
+		date.updateDate(appState.selectedClass.getDateObj().getYear()+1900, 
+				appState.selectedClass.getDateObj().getMonth(), 
+				appState.selectedClass.getDateObj().getDate());
+		
+		time.setCurrentHour(appState.selectedClass.getDateObj().getHours());
+		time.setCurrentMinute(appState.selectedClass.getDateObj().getMinutes());
+		
 		checkCostumersInClassInList(costumersList, costumersInclass);
 
 		costumersList.setFocusableInTouchMode(true);
@@ -187,7 +191,11 @@ public class ExistClassActivity extends ListActivity {
 			}
 		}
 		
-		appState.selectedClass.setDatetime(date.getText().toString()+" "+time.getText().toString());
+		String dStr = date.getYear()+"-"+(date.getMonth()+1)+"-"+date.getDayOfMonth();
+    	String tStr = time.getCurrentHour()+":"+time.getCurrentMinute();
+    	  
+		
+		appState.selectedClass.setDatetime(dStr+" "+tStr);
 		appState.selectedClass.setLocation(locationSpinner.getSelectedItem().toString());
 
 		int i = appState.datasource.updateClass(appState.selectedClass);	

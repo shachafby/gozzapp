@@ -13,15 +13,63 @@
         android:orientation="vertical"
         android:padding="@dimen/padding_medium" >
 
+        <ScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <Spinner
+                        android:id="@+id/exLocationSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.52" />
+                </LinearLayout>
+
+                <DatePicker
+                    android:id="@+id/datePicker1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TimePicker
+                    android:id="@+id/timePicker1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:choiceMode="multipleChoice" >
+        </ListView>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="30dp" >
 
-            <Spinner
-                android:id="@+id/exLocationSpinner"
+            <TextView
+                android:id="@+id/counterText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_height="match_parent"
+                android:layout_weight="0.76"
+                android:text="#0"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/exClassEditBtn"
@@ -32,50 +80,6 @@
                 android:text="Edit" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <EditText
-                android:id="@+id/exDateText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="date" >
-
-                <requestFocus />
-            </EditText>
-
-            <EditText
-                android:id="@+id/exTimeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="time" />
-        </LinearLayout>
-
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:layout_weight="0.22"
-            android:choiceMode="multipleChoice" >
-        </ListView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="22dp" >
-
-            <TextView
-                android:id="@+id/counterText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="#0"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textStyle="bold" />
-        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

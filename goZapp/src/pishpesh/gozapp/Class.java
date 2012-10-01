@@ -1,10 +1,19 @@
 package pishpesh.gozapp;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+import android.text.format.DateFormat;
+
 public class Class {
 
 	private long id;
 	private String location;
 	private String datetime;
+	private Date date;
+	private SimpleDateFormat datePrintFormat;
 	
 	
 	public long getId() {
@@ -24,11 +33,21 @@ public class Class {
 	}
 	public void setDatetime(String datetime) {
 		this.datetime = datetime;
+		
+		try {
+			date = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(datetime);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Override
 	public String toString() {
-		return datetime+" @"+location;
+
+		datePrintFormat = new SimpleDateFormat("dd/MM/yy, HH:mm");
+		return datePrintFormat.format(date)+" @"+location;		
+		
 	}
 	
 	public String getDate() {
@@ -38,5 +57,9 @@ public class Class {
 	public String getTime() {
 		String [] s = datetime.split(" ");
 		return s[1];
+	}
+	public Date getDateObj() {
+		
+		return date;
 	}
 }
