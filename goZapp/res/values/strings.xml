@@ -13,5 +13,6 @@
     <string name="title_activity_about">AboutActivity</string>
     <string name="title_activity_new_purchase">NewPurchaseActivity</string>
     <string name="title_activity_exist_class">ExistClassActivity</string>
+    <string name="title_activity_history">HistoryActivity</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package pishpesh.gozapp;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -28,7 +30,15 @@ public class goZappDataSource {
 	private String[] classColumns = { 
 			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_ID,
 			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_LOCATION,
-			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_DATETIME,
+			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_DATETIME
+	};
+
+	private String[] purchaseColumns = { 
+			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_ID,
+			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_CostumerID,
+			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_DATETIME,
+			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_PurchaseType,
+			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_NOTES
 	};
 
 	public goZappDataSource(Context context) {
@@ -144,7 +154,7 @@ public class goZappDataSource {
 				gozappDBopener.COLUMN_ID+"=?",
 				new String[]{String.valueOf(costumerID)}
 				);
-		
+
 
 	}
 
@@ -183,7 +193,7 @@ public class goZappDataSource {
 
 		updateCredit(costumer.getId(), costumer.getCredit() - 1);
 		costumer.setCredit(costumer.getCredit()-1);
-		
+
 		return (insertId!=-1);
 	}
 
@@ -284,6 +294,90 @@ public class goZappDataSource {
 			addCoustumerToClass(selectedClass,costumer);
 
 		return 0;
+	}
+
+	public Purchase createPurchase(long cosId, int creditDelta, String comment, Date d) {
+		ContentValues values = new ContentValues();
+
+		values.put(gozappDBopener.COLUMN_CostumerID, cosId);
+		values.put(gozappDBopener.COLUMN_DATETIME, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(d));
+		values.put(gozappDBopener.COLUMN_PurchaseType, creditDelta);
+		values.put(gozappDBopener.COLUMN_NOTES, comment);
+
+		long insertId = database.insert(gozappDBopener.TABLE_Purchases, null, values);
+
+		assert(insertId!=-1);
+
+		Cursor cursor = database.query(gozappDBopener.TABLE_Purchases, purchaseColumns, gozappDBopener.COLUMN_ID + " = " + insertId, null, null, null, null);
+		cursor.moveToFirst();
+		Purchase p = cursorToPurchase(cursor);
+		cursor.close();
+		return p;
+	}
+
+	private Purchase cursorToPurchase(Cursor cursor) {
+		Purchase p = new Purchase();
+		p.setId(cursor.getLong(0));
+		p.setCostumerID(cursor.getInt(1));
+		p.setDatetime(cursor.getString(2));
+		p.setPurchaseType(cursor.getInt(3));
+		p.setComment(cursor.getString(4));
+
+		return p;
+	}
+
+	public List<Purchase> getPurchasesByCostumer(Costumer selectedCostumer) {
+
+		List<Purchase> purchases = new ArrayList<Purchase>();
+
+		Cursor cursor = database.query(gozappDBopener.TABLE_Purchases , purchaseColumns , 
+				gozappDBopener.COLUMN_CostumerID+"=?",new String[]{String.valueOf(selectedCostumer.getId())}, null, null, null);
+
+		
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Purchase c = cursorToPurchase(cursor);
+			purchases.add(c);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return purchases;
+	}
+
+	public List<Class> getClassesByCostumer(Costumer selectedCostumer) {
+		List<Class> classes = new ArrayList<Class>();
+
+		Cursor cursor = database.rawQuery(
+				"SELECT "+ arrToRaw(classColumns)
+				+" FROM "
+				+ gozappDBopener.TABLE_COSTUMERS+", "
+				+ gozappDBopener.TABLE_CLASSES+", "
+				+ gozappDBopener.TABLE_CosInClass
+				+" WHERE "
+				+gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_ID
+				+"="
+				+gozappDBopener.TABLE_CosInClass+"."+gozappDBopener.COLUMN_CostumerID
+				+" AND "
+				+gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_ID
+				+"="
+				+gozappDBopener.TABLE_CosInClass+"."+gozappDBopener.COLUMN_ClassID
+				+" AND "
+				+gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_ID
+				+"="
+				+selectedCostumer.getId()
+				+";"
+				, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Class c = cursorToClass(cursor);
+			classes.add(c);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return classes;
 	}
 
 
