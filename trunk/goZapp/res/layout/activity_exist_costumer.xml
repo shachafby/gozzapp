@@ -78,10 +78,12 @@
             android:text="New Purchase" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/historyBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="onHistoryBtn"
             android:text="History" />
+
     </LinearLayout>
 
 </RelativeLayout>

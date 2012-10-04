@@ -125,9 +125,6 @@ public class NewClassActivity extends ListActivity {
     			custumers.add((Costumer)classList.getAdapter().getItem(checked.keyAt(i)));
     	}
     	
-//    	String dStr = date.getYear()+"-"+date.getMonth()+"-"+date.getDayOfMonth();
-//    	String tStr = time.getCurrentHour()+":"+time.getCurrentMinute();
-
     	Date d = new Date(date.getYear()-1900, date.getMonth(), date.getDayOfMonth(), time.getCurrentHour(), time.getCurrentMinute());
     	
     	String dStr = new SimpleDateFormat("yyyy-MM-dd").format(d);

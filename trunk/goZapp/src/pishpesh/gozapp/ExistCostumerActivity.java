@@ -24,6 +24,7 @@ public class ExistCostumerActivity extends Activity {
 	private EditText notes;
 	private Button editBtn;
 	
+	
 	private boolean canEditMode=false;
 
 	//private Costumer selectedCostumer;
@@ -39,6 +40,7 @@ public class ExistCostumerActivity extends Activity {
         email = (EditText)findViewById(R.id.cEmailText);
         notes = (EditText)findViewById(R.id.cNotesText);
         editBtn = (Button)findViewById(R.id.editBtn);
+        
         
         loadCostumerData();
         
@@ -102,6 +104,12 @@ public class ExistCostumerActivity extends Activity {
     	
     	startActivity(i);
 	}
+    
+    public void onHistoryBtn(View view) {
+    	Intent i = new Intent(this,HistoryActivity.class);
+        	
+        	startActivity(i);
+    	}
     
 	private void updateCostumer() {
 		appState.selectedCostumer.setName(name.getText().toString());
