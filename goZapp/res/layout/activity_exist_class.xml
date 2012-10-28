@@ -13,11 +13,49 @@
         android:orientation="vertical"
         android:padding="@dimen/padding_medium" >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/counterText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.76"
+                android:text="#0"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/exClassEditBtn"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onEditClassClick"
+                android:text="Edit" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray" />
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.7"
+            android:choiceMode="multipleChoice" >
+        </ListView>
+<View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray" />
+
         <ScrollView
             android:id="@+id/scrollView1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_height="170dp" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,7 +77,8 @@
                     android:id="@+id/datePicker1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:calendarViewShown="false" />
 
                 <TimePicker
                     android:id="@+id/timePicker1"
@@ -49,36 +88,6 @@
 
             </LinearLayout>
         </ScrollView>
-
-        <ListView
-            android:id="@android:id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.7"
-            android:choiceMode="multipleChoice" >
-        </ListView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp" >
-
-            <TextView
-                android:id="@+id/counterText"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.76"
-                android:text="#0"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/exClassEditBtn"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="onEditClassClick"
-                android:text="Edit" />
-        </LinearLayout>
 
     </LinearLayout>
 

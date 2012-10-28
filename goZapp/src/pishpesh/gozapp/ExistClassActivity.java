@@ -3,6 +3,7 @@ package pishpesh.gozapp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -58,28 +59,43 @@ public class ExistClassActivity extends ListActivity {
 		date = (DatePicker)findViewById(R.id.datePicker1);
 		time = (TimePicker)findViewById(R.id.timePicker1);
 		time.setIs24HourView(true);
-        
+
 		editBtn = (Button)findViewById(R.id.exClassEditBtn);
 
 		costumersList = getListView();
 		locationSpinner = (Spinner)findViewById(R.id.exLocationSpinner);
 		counter = (TextView)findViewById(R.id.counterText);
-        
+
 		appState.costumers = appState.datasource.getAllCostumers();
+
+		costumersInclass = appState.datasource.getCostumerInClass(appState.selectedClass);
 
 		adapter = new ArrayAdapter<Costumer>(this,
 				android.R.layout.simple_list_item_multiple_choice, appState.costumers);
+		adapter.sort(new Comparator<Costumer> (){
+			@Override
+			public int compare(Costumer p1, Costumer p2) {
+				boolean b1 = inList(costumersInclass,p1);
+				boolean b2 = inList(costumersInclass,p1);
+
+				if (b1 || b2)
+					return -1;
+				else
+					return 1;
+
+			}
+		});
+
 		setListAdapter(adapter);
 
-		costumersInclass = appState.datasource.getCostumerInClass(appState.selectedClass);
-		
+
 		date.updateDate(appState.selectedClass.getDateObj().getYear()+1900, 
 				appState.selectedClass.getDateObj().getMonth(), 
 				appState.selectedClass.getDateObj().getDate());
-		
+
 		time.setCurrentHour(appState.selectedClass.getDateObj().getHours());
 		time.setCurrentMinute(appState.selectedClass.getDateObj().getMinutes());
-		
+
 		checkCostumersInClassInList(costumersList, costumersInclass);
 
 		costumersList.setFocusableInTouchMode(true);
@@ -98,24 +114,25 @@ public class ExistClassActivity extends ListActivity {
 				updateCounter();
 			}
 		});
-		
+
 		updateCounter();
-		
+
 		disableInput();
 	}
 
 	protected void updateCounter() {
-    	checked = costumersList.getCheckedItemPositions();
-    	
-    	int cnt=0;
-    	
-    	for (int i = 0; i < checked.size(); i++) {
-			if(checked.valueAt(i))
-				cnt++;
+		checked = costumersList.getCheckedItemPositions();
+
+		int cnt=0;
+
+		if(checked!=null){
+			for (int i = 0; i < checked.size(); i++) {
+				if(checked.valueAt(i))
+					cnt++;
+			}
 		}
-    	
-    	counter.setText("#"+cnt);
-		
+		counter.setText("#"+cnt);
+
 	}
 
 	private void setLocSpiner(Class selectedClass, Spinner locationSpinner) {
@@ -152,10 +169,10 @@ public class ExistClassActivity extends ListActivity {
 			editBtn.setText("Edit");
 
 			updateClass();
-			
+
 			Intent i = new Intent(this,ClassesActivity.class);
-	    	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	    	startActivity(i);
+			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(i);
 		}
 		//edit pressed
 		else{
@@ -167,34 +184,37 @@ public class ExistClassActivity extends ListActivity {
 
 	private void updateClass() {
 
-		for(Costumer c : costumersInclass){
-			appState.datasource.updateCredit(c.getId(), c.getCredit()+1);
-			
+		if(costumersInclass!=null){
+			for(Costumer c : costumersInclass){
+				appState.datasource.updateCredit(c.getId(), c.getCredit()+1);
+
+			}
 		}
-		
+
 		appState.costumers = appState.datasource.getAllCostumers();
 
 		SparseBooleanArray checked = costumersList.getCheckedItemPositions();
 		costumersInclass.clear();
-		
+
 		List<Long> idList = new ArrayList<Long>(); 
-		
-		for(int i=0;i<checked.size();i++){
-			if(checked.valueAt(i)==true)
-				idList.add(((Costumer)costumersList.getAdapter().getItem(checked.keyAt(i))).getId());
+
+		if(checked!=null){
+			for(int i=0;i<checked.size();i++){
+				if(checked.valueAt(i)==true)
+					idList.add(((Costumer)costumersList.getAdapter().getItem(checked.keyAt(i))).getId());
+			}
 		}
-		
 		for(Costumer c : appState.costumers){
 			for(Long id : idList){
 				if(c.getId()==id)
 					costumersInclass.add(c);
 			}
 		}
-		
+
 		String dStr = date.getYear()+"-"+(date.getMonth()+1)+"-"+date.getDayOfMonth();
-    	String tStr = time.getCurrentHour()+":"+time.getCurrentMinute();
-    	  
-		
+		String tStr = time.getCurrentHour()+":"+time.getCurrentMinute();
+
+
 		appState.selectedClass.setDatetime(dStr+" "+tStr);
 		appState.selectedClass.setLocation(locationSpinner.getSelectedItem().toString());
 
@@ -220,4 +240,15 @@ public class ExistClassActivity extends ListActivity {
 		costumersList.setEnabled(false);
 
 	}
+
+
+	private boolean inList(List<Costumer> costumersInclass, Costumer p1) {
+
+		for(Costumer c : costumersInclass){
+			if(c.getId()==p1.getId())
+				return true;
+		}
+		return false;
+	}
+
 }
