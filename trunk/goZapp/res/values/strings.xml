@@ -3,7 +3,7 @@
     <string name="app_name">goZapp</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">goZapp</string>
     <string name="title_activity_classes">ClassesActivity</string>
     <string name="title_activity_costumers">CostumersActivity</string>
     <string name="New_Class">New Class</string>

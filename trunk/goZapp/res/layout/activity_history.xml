@@ -20,7 +20,10 @@
             android:text="History"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold" />
-
+<View
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:background="@android:color/darker_gray" />
         <TabHost
             android:id="@+id/tabhost"
             android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package pishpesh.gozapp;
 
+import java.util.Comparator;
 import java.util.List;
 
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -41,11 +43,28 @@ public class HistoryActivity extends ListActivity {
 		
 		List<Purchase> purchases = appState.datasource.getPurchasesByCostumer(appState.selectedCostumer);
 		ArrayAdapter<Purchase> adapter = new ArrayAdapter<Purchase>(this,android.R.layout.simple_list_item_1, purchases);
+		
+		adapter.sort(new Comparator<Purchase> (){
+			@Override
+			public int compare(Purchase p1, Purchase p2) {
+				if(p1.getDate().before(p2.getDate()))
+					return 1;
+				else return -1;
+			}});
 		setListAdapter(adapter);
 
 		classList = (ListView) findViewById( R.id.Classes);
 		List<Class> classes = appState.datasource.getClassesByCostumer(appState.selectedCostumer);
 		classList.setAdapter(new ArrayAdapter<Class>(this,android.R.layout.simple_list_item_1, classes));
+		
+		((ArrayAdapter) classList.getAdapter()).sort(new Comparator<Class> (){
+			@Override
+			public int compare(Class p1, Class p2) {
+				if(p1.getDateObj().before(p2.getDateObj()))
+					return 1;
+				else return -1;
+			}});
+		
 	}
 
 	@Override

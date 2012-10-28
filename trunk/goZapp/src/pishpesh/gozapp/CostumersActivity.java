@@ -1,5 +1,6 @@
 package pishpesh.gozapp;
 
+import java.util.Comparator;
 import java.util.List;
 
 import android.os.Bundle;
@@ -29,6 +30,12 @@ public class CostumersActivity extends ListActivity {
 		//	     Use the SimpleCursorAdapter to show the
 		//	     elements in a ListView
 		ArrayAdapter<Costumer> adapter = new ArrayAdapter<Costumer>(this,android.R.layout.simple_list_item_1, appState.costumers);
+		adapter.sort(new Comparator<Costumer> (){
+			@Override
+			public int compare(Costumer p1, Costumer p2) {
+				return p1.getName().compareTo(p2.getName());					
+			}});
+		
 		setListAdapter(adapter);
 
 	} 

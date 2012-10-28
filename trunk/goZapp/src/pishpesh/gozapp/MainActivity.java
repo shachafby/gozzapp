@@ -24,10 +24,21 @@ public class MainActivity extends Activity {
         
 
 		appState.datasource.open();
+		
+		initAppObjects();
 
     }
 
-    @Override
+    private void initAppObjects() {
+
+
+    	appState.costumers = appState.datasource.getAllCostumers();
+    	
+    	appState.classes = appState.datasource.getAllClasses();
+    	
+	}
+
+	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;

@@ -54,7 +54,7 @@ public class Purchase {
 	@Override
 	public String toString() {
 
-		return "On "+(new SimpleDateFormat("dd/MM/yy").format(date))+" bought "+purchaseType+" classes.";		
+		return (new SimpleDateFormat("dd/MM/yy").format(date))+" bought "+purchaseType+" classes";		
 			
 	}
 	

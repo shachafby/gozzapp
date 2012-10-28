@@ -1,5 +1,7 @@
 package pishpesh.gozapp;
 
+import java.util.Comparator;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ListActivity;
@@ -27,6 +29,13 @@ public class ClassesActivity extends ListActivity {
 		//	     Use the SimpleCursorAdapter to show the
 		//	     elements in a ListView
 		ArrayAdapter<Class> adapter = new ArrayAdapter<Class>(this,android.R.layout.simple_list_item_1, appState.classes);
+		adapter.sort(new Comparator<Class> (){
+			@Override
+			public int compare(Class p1, Class p2) {
+				if(p1.getDateObj().before(p2.getDateObj()))
+					return 1;
+				else return -1;
+			}});
 		setListAdapter(adapter);
     }
 
