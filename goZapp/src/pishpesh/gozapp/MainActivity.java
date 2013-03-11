@@ -55,4 +55,10 @@ public class MainActivity extends Activity {
     	
     	startActivity(i);
     }
+    public void ExportImportView(View view){
+    	Intent i = new Intent(this,ExportImportActivity.class);
+    	
+    	startActivity(i);
+    }
+    
 }
