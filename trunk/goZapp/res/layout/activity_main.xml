@@ -4,6 +4,7 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -41,7 +42,16 @@
             android:layout_height="wrap_content"
             android:enabled="false"
             android:text="Products" />
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/ExpImpButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="ExportImportView"
+        android:text="Export/Import" />
 
 </RelativeLayout>
