@@ -15,5 +15,6 @@
     <string name="title_activity_exist_class">ExistClassActivity</string>
     <string name="title_activity_history">HistoryActivity</string>
     <string name="title_activity_export_import">ExportImportActivity</string>
+    <string name="title_activity_locations">LocationsActivity</string>
 
 </resources>

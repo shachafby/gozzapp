@@ -27,6 +27,12 @@ public class goZappDataSource {
 			gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_CREDIT
 	};
 
+	private String[] locationColumns = { 
+			gozappDBopener.TABLE_LOCATIONS+"."+gozappDBopener.COLUMN_ID,
+			gozappDBopener.TABLE_LOCATIONS+"."+gozappDBopener.COLUMN_NAME
+	};
+
+
 	private String[] classColumns = { 
 			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_ID,
 			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_LOCATION,
@@ -40,7 +46,6 @@ public class goZappDataSource {
 			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_PurchaseType,
 			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_NOTES
 	};
-
 	public goZappDataSource(Context context) {
 		dbHelper = new gozappDBopener(context);
 	}
@@ -93,6 +98,30 @@ public class goZappDataSource {
 		// Make sure to close the cursor
 		cursor.close();
 		return Costumers;
+	}
+
+	public List<Location> getAllLocations(){
+		List<Location> Locations = new ArrayList<Location>();
+
+		Cursor cursor = database.query(gozappDBopener.TABLE_LOCATIONS, locationColumns, null, null, null, null, null);
+
+		cursor.moveToFirst();
+		while (!cursor.isAfterLast()) {
+			Location location = cursorToLocation(cursor);
+			Locations.add(location);
+			cursor.moveToNext();
+		}
+		// Make sure to close the cursor
+		cursor.close();
+		return Locations;
+	}
+
+	private Location cursorToLocation(Cursor cursor) {
+		Location location = new Location();
+		location.setId(cursor.getLong(0));
+		location.setName(cursor.getString(1));
+
+		return location;
 	}
 
 	private Costumer cursorToCostumer(Cursor cursor) {
@@ -333,7 +362,7 @@ public class goZappDataSource {
 		Cursor cursor = database.query(gozappDBopener.TABLE_Purchases , purchaseColumns , 
 				gozappDBopener.COLUMN_CostumerID+"=?",new String[]{String.valueOf(selectedCostumer.getId())}, null, null, null);
 
-		
+
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Purchase c = cursorToPurchase(cursor);
@@ -378,6 +407,38 @@ public class goZappDataSource {
 		// Make sure to close the cursor
 		cursor.close();
 		return classes;
+	}
+
+
+	public Location createLocation(String newLocationName) {
+		ContentValues values = new ContentValues();
+
+		values.put(gozappDBopener.COLUMN_NAME, newLocationName);
+
+		long insertId = database.insert(gozappDBopener.TABLE_LOCATIONS, null, values);
+
+		assert(insertId!=-1);
+
+		Cursor cursor = database.query(gozappDBopener.TABLE_LOCATIONS, locationColumns, gozappDBopener.COLUMN_ID + " = " + insertId, null, null, null, null);
+		cursor.moveToFirst();
+		Location loc = cursorToLocation(cursor);
+		cursor.close();
+		return loc;
+
+	}
+
+	public void deleteLocation(Location l) {
+		long id = l.getId();
+
+		database.delete(gozappDBopener.TABLE_LOCATIONS, gozappDBopener.COLUMN_ID
+				+ " = " + id, null);
+	}
+
+	public void deleteClass(Class c) {
+		long id = c.getId();
+
+		database.delete(gozappDBopener.TABLE_CLASSES, gozappDBopener.COLUMN_ID
+				+ " = " + id, null);
 	}
 
 

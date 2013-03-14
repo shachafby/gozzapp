@@ -5,20 +5,26 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.support.v4.app.NavUtils;
 
 public class CostumersActivity extends ListActivity {
 
 	goZappApplication appState = ((goZappApplication)this.getApplication());
-	
+
+	Activity activity = this;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -37,6 +43,41 @@ public class CostumersActivity extends ListActivity {
 			}});
 		
 		setListAdapter(adapter);
+		
+		final ListView listview = this.getListView();
+		listview.setLongClickable(true);
+		listview.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView parentView, View childView, int position, long id) {
+				// this will provide the value
+				final Costumer cos = (Costumer)listview.getItemAtPosition(position);
+
+				AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+
+				alert.setTitle("Are you want to delete Costumer '"+cos.getName()+"'?");
+
+				alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						appState.datasource.deleteCostumer(cos);
+						
+						Intent i = new Intent(activity, ClassesActivity.class);
+						i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						startActivity(i);
+					}
+				});
+
+				alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+						// Canceled.
+					}
+				});
+
+				alert.show();
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
+
 
 	} 
 

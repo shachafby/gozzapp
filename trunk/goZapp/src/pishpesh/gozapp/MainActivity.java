@@ -34,6 +34,8 @@ public class MainActivity extends Activity {
 
     	appState.costumers = appState.datasource.getAllCostumers();
     	
+    	appState.locations = appState.datasource.getAllLocations();
+    	
     	appState.classes = appState.datasource.getAllClasses();
     	
 	}
@@ -60,5 +62,11 @@ public class MainActivity extends Activity {
     	
     	startActivity(i);
     }
+    public void locationsView(View view){
+    	Intent i = new Intent(this,LocationsActivity.class);
+    	
+    	startActivity(i);
+    }
+    
     
 }
