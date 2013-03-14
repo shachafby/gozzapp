@@ -18,7 +18,8 @@ public class gozappDBopener extends SQLiteOpenHelper {
 	public static final String COLUMN_NOTES = "notes";
 
 	public static final String TABLE_CLASSES = "classes";
-
+	public static final String TABLE_LOCATIONS = "locations";
+	
 	public static final String COLUMN_LOCATION = "location";
 	public static final String COLUMN_DATETIME = "datetime";
 
@@ -33,7 +34,7 @@ public class gozappDBopener extends SQLiteOpenHelper {
 
 
 	public static final String DATABASE_NAME = "goZapp.db";
-	public static final int DATABASE_VERSION = 1;
+	public static final int DATABASE_VERSION = 2;
 
 	// Database creation sql statement
 	private static final String COSTUMERS_CREATE = 
@@ -52,10 +53,19 @@ public class gozappDBopener extends SQLiteOpenHelper {
 					+ TABLE_CLASSES
 					+ "(" 
 					+ COLUMN_ID	+ " integer primary key autoincrement, "						
-					+ COLUMN_LOCATION + " text not null, "
-					+ COLUMN_DATETIME + " text not null"
+					+ COLUMN_LOCATION + " integer not null, "
+					+ COLUMN_DATETIME + " text not null, "
+					+ "FOREIGN KEY("+COLUMN_LOCATION+") REFERENCES "+TABLE_LOCATIONS+"("+COLUMN_ID+")"
 					+");";
 
+	private static final String LOCATIONS_CREATE =
+			"create table "
+					+ TABLE_LOCATIONS
+					+ "(" 
+					+ COLUMN_ID	+ " integer primary key autoincrement, "						
+					+ COLUMN_NAME + " text not null"
+					+");";
+	
 	private static final String CosInClass_CREATE =
 			"create table "
 					+ TABLE_CosInClass
@@ -87,6 +97,8 @@ public class gozappDBopener extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase database) {
 
+
+		database.execSQL(LOCATIONS_CREATE);
 		database.execSQL(COSTUMERS_CREATE);
 		database.execSQL(CLASSES_CREATE);
 		database.execSQL(CosInClass_CREATE);

@@ -13,6 +13,7 @@ public class goZappApplication extends Application{
 	public static Costumer selectedCostumer;
 	public static Class selectedClass;
 	public Comparator<Purchase> dateDescComperator;
+	public static List<Location> locations;
 	
 	@Override
 	public void onCreate() {

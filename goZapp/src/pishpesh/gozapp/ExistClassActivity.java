@@ -101,9 +101,9 @@ public class ExistClassActivity extends ListActivity {
 		costumersList.setFocusableInTouchMode(true);
 		costumersList.requestFocus();
 
-		ArrayAdapter aaadapter = ArrayAdapter.createFromResource(this, R.array.Locations, android.R.layout.simple_spinner_item); 
-		aaadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		locationSpinner.setAdapter(aaadapter);
+		ArrayAdapter<Location> locAdapter = new ArrayAdapter<Location>(this,android.R.layout.simple_list_item_1, appState.locations);
+
+		locationSpinner.setAdapter(locAdapter);
 
 		setLocSpiner(appState.selectedClass, locationSpinner);
 
