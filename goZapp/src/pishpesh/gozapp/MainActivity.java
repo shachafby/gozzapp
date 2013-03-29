@@ -32,11 +32,11 @@ public class MainActivity extends Activity {
     private void initAppObjects() {
 
 
-    	appState.costumers = appState.datasource.getAllCostumers();
+    	appState.datasource.costumers = appState.datasource.getAllCostumers();
     	
-    	appState.locations = appState.datasource.getAllLocations();
+    	appState.datasource.locations = appState.datasource.getAllLocations();
     	
-    	appState.classes = appState.datasource.getAllClasses();
+    	appState.datasource.classes = appState.datasource.getAllClasses();
     	
 	}
 

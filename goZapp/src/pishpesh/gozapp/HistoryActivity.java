@@ -41,7 +41,7 @@ public class HistoryActivity extends ListActivity {
 		classSpec.setContent(R.id.tab2);
 		th.addTab(classSpec);
 		
-		List<Purchase> purchases = appState.datasource.getPurchasesByCostumer(appState.selectedCostumer);
+		List<Purchase> purchases = appState.datasource.getPurchasesByCostumer(appState.datasource.selectedCostumer);
 		ArrayAdapter<Purchase> adapter = new ArrayAdapter<Purchase>(this,android.R.layout.simple_list_item_1, purchases);
 		
 		adapter.sort(new Comparator<Purchase> (){
@@ -54,7 +54,7 @@ public class HistoryActivity extends ListActivity {
 		setListAdapter(adapter);
 
 		classList = (ListView) findViewById( R.id.Classes);
-		List<Class> classes = appState.datasource.getClassesByCostumer(appState.selectedCostumer);
+		List<Class> classes = appState.datasource.getClassesByCostumer(appState.datasource.selectedCostumer);
 		classList.setAdapter(new ArrayAdapter<Class>(this,android.R.layout.simple_list_item_1, classes));
 		
 		((ArrayAdapter) classList.getAdapter()).sort(new Comparator<Class> (){
