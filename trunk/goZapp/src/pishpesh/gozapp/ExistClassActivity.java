@@ -66,12 +66,12 @@ public class ExistClassActivity extends ListActivity {
 		locationSpinner = (Spinner)findViewById(R.id.exLocationSpinner);
 		counter = (TextView)findViewById(R.id.counterText);
 
-		appState.costumers = appState.datasource.getAllCostumers();
+		appState.datasource.costumers = appState.datasource.getAllCostumers();
 
-		costumersInclass = appState.datasource.getCostumerInClass(appState.selectedClass);
+		costumersInclass = appState.datasource.getCostumerInClass(appState.datasource.selectedClass);
 
 		adapter = new ArrayAdapter<Costumer>(this,
-				android.R.layout.simple_list_item_multiple_choice, appState.costumers);
+				android.R.layout.simple_list_item_multiple_choice, appState.datasource.costumers);
 		adapter.sort(new Comparator<Costumer> (){
 			@Override
 			public int compare(Costumer p1, Costumer p2) {
@@ -89,23 +89,23 @@ public class ExistClassActivity extends ListActivity {
 		setListAdapter(adapter);
 
 
-		date.updateDate(appState.selectedClass.getDateObj().getYear()+1900, 
-				appState.selectedClass.getDateObj().getMonth(), 
-				appState.selectedClass.getDateObj().getDate());
+		date.updateDate(appState.datasource.selectedClass.getDateObj().getYear()+1900, 
+				appState.datasource.selectedClass.getDateObj().getMonth(), 
+				appState.datasource.selectedClass.getDateObj().getDate());
 
-		time.setCurrentHour(appState.selectedClass.getDateObj().getHours());
-		time.setCurrentMinute(appState.selectedClass.getDateObj().getMinutes());
+		time.setCurrentHour(appState.datasource.selectedClass.getDateObj().getHours());
+		time.setCurrentMinute(appState.datasource.selectedClass.getDateObj().getMinutes());
 
 		checkCostumersInClassInList(costumersList, costumersInclass);
 
 		costumersList.setFocusableInTouchMode(true);
 		costumersList.requestFocus();
 
-		ArrayAdapter<Location> locAdapter = new ArrayAdapter<Location>(this,android.R.layout.simple_list_item_1, appState.locations);
+		ArrayAdapter<Location> locAdapter = new ArrayAdapter<Location>(this,android.R.layout.simple_list_item_1, new ArrayList<Location>(appState.datasource.locations.values()));
 
 		locationSpinner.setAdapter(locAdapter);
 
-		setLocSpiner(appState.selectedClass, locationSpinner);
+		setLocSpiner(appState.datasource.selectedClass, locationSpinner);
 
 		costumersList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -191,7 +191,7 @@ public class ExistClassActivity extends ListActivity {
 			}
 		}
 
-		appState.costumers = appState.datasource.getAllCostumers();
+		appState.datasource.costumers = appState.datasource.getAllCostumers();
 
 		SparseBooleanArray checked = costumersList.getCheckedItemPositions();
 		costumersInclass.clear();
@@ -204,7 +204,7 @@ public class ExistClassActivity extends ListActivity {
 					idList.add(((Costumer)costumersList.getAdapter().getItem(checked.keyAt(i))).getId());
 			}
 		}
-		for(Costumer c : appState.costumers){
+		for(Costumer c : appState.datasource.costumers){
 			for(Long id : idList){
 				if(c.getId()==id)
 					costumersInclass.add(c);
@@ -215,12 +215,12 @@ public class ExistClassActivity extends ListActivity {
 		String tStr = time.getCurrentHour()+":"+time.getCurrentMinute();
 
 
-		appState.selectedClass.setDatetime(dStr+" "+tStr);
-		appState.selectedClass.setLocation(locationSpinner.getSelectedItem().toString());
+		appState.datasource.selectedClass.setDatetime(dStr+" "+tStr);
+		appState.datasource.selectedClass.setLocation(locationSpinner.getSelectedItem().toString());
 
-		int i = appState.datasource.updateClass(appState.selectedClass);	
+		int i = appState.datasource.updateClass(appState.datasource.selectedClass);	
 
-		i = appState.datasource.updateCostumersInClass(appState.selectedClass,costumersInclass);	
+		i = appState.datasource.updateCostumersInClass(appState.datasource.selectedClass,costumersInclass);	
 
 	}
 

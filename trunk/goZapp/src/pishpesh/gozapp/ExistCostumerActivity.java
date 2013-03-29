@@ -70,11 +70,11 @@ public class ExistCostumerActivity extends Activity {
 //        
 //        appState.selectedCostumer = appState.datasource.getCostumerByID(selectedCostumerID);
 //        
-        name.setText(appState.selectedCostumer.getName());
-        credit.setText("Credit: "+String.valueOf(appState.selectedCostumer.getCredit())+" Classes left.");
-        phone.setText(appState.selectedCostumer.getPhone());
-        email.setText(appState.selectedCostumer.getEmail());
-        notes.setText(appState.selectedCostumer.getNotes());
+        name.setText(appState.datasource.selectedCostumer.getName());
+        credit.setText("Credit: "+String.valueOf(appState.datasource.selectedCostumer.getCredit())+" Classes left.");
+        phone.setText(appState.datasource.selectedCostumer.getPhone());
+        email.setText(appState.datasource.selectedCostumer.getEmail());
+        notes.setText(appState.datasource.selectedCostumer.getNotes());
 	}
 
 	@Override
@@ -112,12 +112,12 @@ public class ExistCostumerActivity extends Activity {
     	}
     
 	private void updateCostumer() {
-		appState.selectedCostumer.setName(name.getText().toString());
-		appState.selectedCostumer.setPhone(phone.getText().toString());
-		appState.selectedCostumer.setEmail(email.getText().toString());
-		appState.selectedCostumer.setNotes(notes.getText().toString());
+		appState.datasource.selectedCostumer.setName(name.getText().toString());
+		appState.datasource.selectedCostumer.setPhone(phone.getText().toString());
+		appState.datasource.selectedCostumer.setEmail(email.getText().toString());
+		appState.datasource.selectedCostumer.setNotes(notes.getText().toString());
 				
-		int i = appState.datasource.updateCustumer(appState.selectedCostumer);
+		int i = appState.datasource.updateCustumer(appState.datasource.selectedCostumer);
 		
 	}
 

@@ -17,7 +17,7 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Costumer"
+            android:text="New Customer"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textStyle="bold" />
 
@@ -57,8 +57,9 @@
             android:id="@+id/CreateCostumerBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create Costumer"
-            android:onClick="onCreateCostumer" />
+            android:onClick="onCreateCostumer"
+            android:text="Create Customer" />
+
     </LinearLayout>
 
 </RelativeLayout>

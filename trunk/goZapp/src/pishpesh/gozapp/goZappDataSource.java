@@ -2,13 +2,18 @@ package pishpesh.gozapp;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.Editable;
 
@@ -18,40 +23,53 @@ public class goZappDataSource {
 	private SQLiteDatabase database;
 	private gozappDBopener dbHelper;
 
-	private String[] costumerColumns = { 
-			gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_ID,
-			gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_NAME,
-			gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_PHONE,
-			gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_EMAIL,
-			gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_NOTES,
-			gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_CREDIT
+	public static List<Costumer> costumers;
+	public static List<Class> classes;
+	public static Costumer selectedCostumer;
+	public static Class selectedClass;
+
+	public static Map<Integer,Location> locations;
+
+	static String[] costumerColumns = { 
+		gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_ID,
+		gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_NAME,
+		gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_PHONE,
+		gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_EMAIL,
+		gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_NOTES,
+		gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_CREDIT
 	};
 
-	private String[] locationColumns = { 
-			gozappDBopener.TABLE_LOCATIONS+"."+gozappDBopener.COLUMN_ID,
-			gozappDBopener.TABLE_LOCATIONS+"."+gozappDBopener.COLUMN_NAME
+	static String[] locationColumns = { 
+		gozappDBopener.TABLE_LOCATIONS+"."+gozappDBopener.COLUMN_ID,
+		gozappDBopener.TABLE_LOCATIONS+"."+gozappDBopener.COLUMN_NAME
 	};
 
-
-	private String[] classColumns = { 
-			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_ID,
-			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_LOCATION,
-			gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_DATETIME
+	static String[] classColumns = { 
+		gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_ID,
+		gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_LOCATION,
+		gozappDBopener.TABLE_CLASSES+"."+gozappDBopener.COLUMN_DATETIME
 	};
 
-	private String[] purchaseColumns = { 
-			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_ID,
-			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_CostumerID,
-			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_DATETIME,
-			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_PurchaseType,
-			gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_NOTES
+	static String[] purchaseColumns = { 
+		gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_ID,
+		gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_CostumerID,
+		gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_DATETIME,
+		gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_PurchaseType,
+		gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_NOTES
 	};
+
 	public goZappDataSource(Context context) {
 		dbHelper = new gozappDBopener(context);
 	}
 
 	public void open() throws SQLException {
 		database = dbHelper.getWritableDatabase();
+
+		// Enable foreign key constraints
+		if (!database.isReadOnly()) {
+			database.execSQL("PRAGMA foreign_keys = ON;");
+
+		}
 	}
 
 	public void close() {
@@ -100,15 +118,15 @@ public class goZappDataSource {
 		return Costumers;
 	}
 
-	public List<Location> getAllLocations(){
-		List<Location> Locations = new ArrayList<Location>();
+	public Map<Integer, Location> getAllLocations(){
+		Map<Integer, Location> Locations = new HashMap<Integer, Location>();
 
 		Cursor cursor = database.query(gozappDBopener.TABLE_LOCATIONS, locationColumns, null, null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
 			Location location = cursorToLocation(cursor);
-			Locations.add(location);
+			Locations.put((int)location.getId(), location);
 			cursor.moveToNext();
 		}
 		// Make sure to close the cursor
@@ -190,7 +208,7 @@ public class goZappDataSource {
 	public Class createClass(String location, String date, String time, List<Costumer> custumers) {
 		ContentValues values = new ContentValues();
 
-		values.put(gozappDBopener.COLUMN_LOCATION, location);
+		values.put(gozappDBopener.COLUMN_LOCATION, getKeyFromLocationStr(location));
 		values.put(gozappDBopener.COLUMN_DATETIME, date+" "+time);
 
 		long insertId = database.insert(gozappDBopener.TABLE_CLASSES, null, values);
@@ -211,6 +229,16 @@ public class goZappDataSource {
 		return newClass;
 	}
 
+	private int getKeyFromLocationStr(String location) {
+		for (Map.Entry<Integer, Location> entry : locations.entrySet()) {
+			if(entry.getValue().getName()==location)
+				return entry.getKey();
+		}
+		return -1;
+
+	}
+
+
 	private boolean addCoustumerToClass(Class newClass, Costumer costumer) {
 
 		ContentValues values = new ContentValues();
@@ -229,7 +257,7 @@ public class goZappDataSource {
 	private Class cursorToClass(Cursor cursor) {
 		Class c = new Class();
 		c.setId(cursor.getLong(0));
-		c.setLocation(cursor.getString(1));
+		c.setLocation(locations.get(cursor.getInt(1)).getName());
 		c.setDatetime(cursor.getString(2));
 
 		return c;
@@ -302,7 +330,7 @@ public class goZappDataSource {
 
 		ContentValues values = new ContentValues();
 
-		values.put(gozappDBopener.COLUMN_LOCATION, c.getLocation());
+		values.put(gozappDBopener.COLUMN_LOCATION, getKeyFromLocationStr(c.getLocation()));
 		values.put(gozappDBopener.COLUMN_DATETIME, c.getDatetime());
 
 		return database.update(
@@ -429,9 +457,14 @@ public class goZappDataSource {
 
 	public void deleteLocation(Location l) {
 		long id = l.getId();
+		try{
+			database.delete(gozappDBopener.TABLE_LOCATIONS, gozappDBopener.COLUMN_ID
+					+ " = " + id, null);
+		}
+		catch(SQLiteConstraintException e){
 
-		database.delete(gozappDBopener.TABLE_LOCATIONS, gozappDBopener.COLUMN_ID
-				+ " = " + id, null);
+		}
+
 	}
 
 	public void deleteClass(Class c) {

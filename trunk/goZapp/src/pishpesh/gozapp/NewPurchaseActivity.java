@@ -70,10 +70,10 @@ public class NewPurchaseActivity extends Activity {
 		
 		//write purchase
 		Date d = Calendar.getInstance().getTime();
-		Purchase p = appState.datasource.createPurchase(appState.selectedCostumer.getId(), creditDelta, comment.getText().toString(), d);
+		Purchase p = appState.datasource.createPurchase(appState.datasource.selectedCostumer.getId(), creditDelta, comment.getText().toString(), d);
 
 		//add credit		
-		appState.datasource.updateCredit(appState.selectedCostumer.getId(), appState.selectedCostumer.getCredit()+creditDelta);
+		appState.datasource.updateCredit(appState.datasource.selectedCostumer.getId(), appState.datasource.selectedCostumer.getCredit()+creditDelta);
  
         Intent i = new Intent(this,CostumersActivity.class);
     	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -1,5 +1,6 @@
 package pishpesh.gozapp;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 
 import android.os.Bundle;
@@ -36,9 +37,9 @@ public class LocationsActivity extends ListActivity {
 
 		setContentView(R.layout.activity_locations);
 
-		appState.locations = appState.datasource.getAllLocations();
+		appState.datasource.locations = appState.datasource.getAllLocations();
 
-		ArrayAdapter<Location> adapter = new ArrayAdapter<Location>(this,android.R.layout.simple_list_item_1, appState.locations);
+		ArrayAdapter<Location> adapter = new ArrayAdapter<Location>(this,android.R.layout.simple_list_item_1, new ArrayList<Location>(appState.datasource.locations.values()));
 		
 		adapter.sort(new Comparator<Location> (){
 			@Override
@@ -67,7 +68,7 @@ public class LocationsActivity extends ListActivity {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						appState.datasource.deleteLocation(l);
 						
-						appState.locations = appState.datasource.getAllLocations();
+						appState.datasource.locations = appState.datasource.getAllLocations();
 						
 						@SuppressWarnings("unchecked")
 						ArrayAdapter<Location> adapter = (ArrayAdapter<Location>) getListAdapter();				
@@ -132,7 +133,7 @@ public class LocationsActivity extends ListActivity {
 
 				appState.datasource.createLocation(newLocationName);
 
-				appState.locations = appState.datasource.getAllLocations();
+				appState.datasource.locations = appState.datasource.getAllLocations();
 				
 				@SuppressWarnings("unchecked")
 				ArrayAdapter<Location> adapter = (ArrayAdapter<Location>) getListAdapter();				

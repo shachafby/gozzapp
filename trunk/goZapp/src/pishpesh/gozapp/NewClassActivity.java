@@ -68,9 +68,9 @@ public class NewClassActivity extends ListActivity {
 		locationSpinner = (Spinner)findViewById(R.id.locationSpinner);
 		counter = (TextView)findViewById(R.id.counterText);
 
-		appState.costumers = appState.datasource.getAllCostumers();
+		appState.datasource.costumers = appState.datasource.getAllCostumers();
 
-		ArrayAdapter<Costumer> adapter = new ArrayAdapter<Costumer>(this,android.R.layout.simple_list_item_multiple_choice, appState.costumers);
+		ArrayAdapter<Costumer> adapter = new ArrayAdapter<Costumer>(this,android.R.layout.simple_list_item_multiple_choice, appState.datasource.costumers);
 		setListAdapter(adapter);
 
 		classList.setFocusableInTouchMode(true);
@@ -96,7 +96,7 @@ public class NewClassActivity extends ListActivity {
 			}
 		});
 
-		ArrayAdapter<Location> locAdapter = new ArrayAdapter<Location>(this,android.R.layout.simple_list_item_1, appState.locations);
+		ArrayAdapter<Location> locAdapter = new ArrayAdapter<Location>(this,android.R.layout.simple_list_item_1, new ArrayList<Location>(appState.datasource.locations.values()));
 
 		locationSpinner.setAdapter(locAdapter);
 	}

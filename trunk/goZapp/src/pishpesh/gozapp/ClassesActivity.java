@@ -28,11 +28,11 @@ public class ClassesActivity extends ListActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE );
         setContentView(R.layout.activity_classes);
         
-        appState.classes = appState.datasource.getAllClasses();
+        appState.datasource.classes = appState.datasource.getAllClasses();
 
 		//	     Use the SimpleCursorAdapter to show the
 		//	     elements in a ListView
-		ArrayAdapter<Class> adapter = new ArrayAdapter<Class>(this,android.R.layout.simple_list_item_1, appState.classes);
+		ArrayAdapter<Class> adapter = new ArrayAdapter<Class>(this,android.R.layout.simple_list_item_1, appState.datasource.classes);
 		adapter.sort(new Comparator<Class> (){
 			@Override
 			public int compare(Class p1, Class p2) {
@@ -108,7 +108,7 @@ public class ClassesActivity extends ListActivity {
 		// TODO Auto-generated method stub
 		super.onListItemClick(l, v, position, id);
 		
-		appState.selectedClass = (Class)l.getAdapter().getItem(position);
+		appState.datasource.selectedClass = (Class)l.getAdapter().getItem(position);
 		
 		Intent i = new Intent(this,ExistClassActivity.class);
 		startActivity(i);

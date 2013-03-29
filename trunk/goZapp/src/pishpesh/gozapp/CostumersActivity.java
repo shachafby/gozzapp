@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebChromeClient.CustomViewCallback;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -31,11 +32,11 @@ public class CostumersActivity extends ListActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE );
 		setContentView(R.layout.activity_costumers);
 
-		appState.costumers = appState.datasource.getAllCostumers();
+		appState.datasource.costumers = appState.datasource.getAllCostumers();
 
 		//	     Use the SimpleCursorAdapter to show the
 		//	     elements in a ListView
-		ArrayAdapter<Costumer> adapter = new ArrayAdapter<Costumer>(this,android.R.layout.simple_list_item_1, appState.costumers);
+		ArrayAdapter<Costumer> adapter = new ArrayAdapter<Costumer>(this,android.R.layout.simple_list_item_1, appState.datasource.costumers);
 		adapter.sort(new Comparator<Costumer> (){
 			@Override
 			public int compare(Costumer p1, Costumer p2) {
@@ -54,13 +55,13 @@ public class CostumersActivity extends ListActivity {
 
 				AlertDialog.Builder alert = new AlertDialog.Builder(activity);
 
-				alert.setTitle("Are you want to delete Costumer '"+cos.getName()+"'?");
+				alert.setTitle("Are you want to delete Customer '"+cos.getName()+"'?");
 
 				alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int whichButton) {
 						appState.datasource.deleteCostumer(cos);
 						
-						Intent i = new Intent(activity, ClassesActivity.class);
+						Intent i = new Intent(activity, CostumersActivity.class);
 						i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 						startActivity(i);
 					}
@@ -120,7 +121,7 @@ public class CostumersActivity extends ListActivity {
 
 		Intent i = new Intent(this,ExistCostumerActivity.class);
 		//appState.selectedCostumer = appState.costumers.get(position);
-		appState.selectedCostumer = (Costumer)l.getAdapter().getItem(position);
+		appState.datasource.selectedCostumer = (Costumer)l.getAdapter().getItem(position);
 		//i.addFlags(i.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(i);
 
