@@ -60,13 +60,13 @@ public class ExportImportActivity extends Activity {
 				dst.transferFrom(src, 0, src.size());
 				src.close();
 				dst.close();
-				Toast.makeText(getBaseContext(), backupDB.toString(),
+				Toast.makeText(getBaseContext(), "Imported! "+backupDB.toString(),
 						Toast.LENGTH_LONG).show();
 
 			}
 		} catch (Exception e) {
 
-			Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG)
+			Toast.makeText(getBaseContext(), "Import fail! "+e.toString(), Toast.LENGTH_LONG)
 			.show();
 
 		}
@@ -91,13 +91,13 @@ public class ExportImportActivity extends Activity {
 				dst.transferFrom(src, 0, src.size());
 				src.close();
 				dst.close();
-				Toast.makeText(getBaseContext(), backupDB.toString(),
+				Toast.makeText(getBaseContext(), "Exported! "+backupDB.toString(),
 						Toast.LENGTH_LONG).show();
 
 			}
 		} catch (Exception e) {
 
-			Toast.makeText(getBaseContext(), e.toString(), Toast.LENGTH_LONG)
+			Toast.makeText(getBaseContext(), "Export fail! "+e.toString(), Toast.LENGTH_LONG)
 			.show();
 
 		}
