@@ -4,12 +4,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.DialogFragment;
 import android.app.ListActivity;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.util.SparseBooleanArray;
 import android.view.Menu;
@@ -29,15 +33,21 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TimePicker;
 import android.support.v4.app.NavUtils;
 
-public class ExistClassActivity extends ListActivity {
+public class ExistClassActivity extends ListActivity 
+implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
 	goZappApplication appState = ((goZappApplication)this.getApplication());
 
 	private boolean canEditMode=false;
 
-	private DatePicker date;
+
+	private Date ddate = new Date();
+	private Button dateBtn;
+	private Button timeBtn;
+
+	//private DatePicker date;
 	private Button editBtn;
-	private TimePicker time;
+	//private TimePicker time;
 	private ListView costumersList;
 	private Spinner locationSpinner;
 	private List<Costumer> costumersInclass;
@@ -56,9 +66,13 @@ public class ExistClassActivity extends ListActivity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE );
 		setContentView(R.layout.activity_exist_class);
 
-		date = (DatePicker)findViewById(R.id.datePicker1);
-		time = (TimePicker)findViewById(R.id.timePicker1);
-		time.setIs24HourView(true);
+
+		dateBtn = (Button)findViewById(R.id.dateBtn1);
+		timeBtn = (Button)findViewById(R.id.timeBtn1);
+
+		//		date = (DatePicker)findViewById(R.id.datePicker1);
+		//		time = (TimePicker)findViewById(R.id.timePicker1);
+		//		time.setIs24HourView(true);
 
 		editBtn = (Button)findViewById(R.id.exClassEditBtn);
 
@@ -89,12 +103,20 @@ public class ExistClassActivity extends ListActivity {
 		setListAdapter(adapter);
 
 
-		date.updateDate(appState.datasource.selectedClass.getDateObj().getYear()+1900, 
-				appState.datasource.selectedClass.getDateObj().getMonth(), 
-				appState.datasource.selectedClass.getDateObj().getDate());
+		//		date.updateDate(appState.datasource.selectedClass.getDateObj().getYear()+1900, 
+		//				appState.datasource.selectedClass.getDateObj().getMonth(), 
+		//				appState.datasource.selectedClass.getDateObj().getDate());
+		//
+		//		time.setCurrentHour(appState.datasource.selectedClass.getDateObj().getHours());
+		//		time.setCurrentMinute(appState.datasource.selectedClass.getDateObj().getMinutes());
 
-		time.setCurrentHour(appState.datasource.selectedClass.getDateObj().getHours());
-		time.setCurrentMinute(appState.datasource.selectedClass.getDateObj().getMinutes());
+		dateBtn.setText(appState.datasource.selectedClass.getDateObj().getDate()+"."+
+				(appState.datasource.selectedClass.getDateObj().getMonth()+1)+"."+
+				(appState.datasource.selectedClass.getDateObj().getYear()+1900));
+
+		timeBtn.setText(appState.datasource.selectedClass.getDateObj().getHours()+":"+
+				appState.datasource.selectedClass.getDateObj().getMinutes()
+				);
 
 		checkCostumersInClassInList(costumersList, costumersInclass);
 
@@ -211,8 +233,9 @@ public class ExistClassActivity extends ListActivity {
 			}
 		}
 
-		String dStr = date.getYear()+"-"+(date.getMonth()+1)+"-"+date.getDayOfMonth();
-		String tStr = time.getCurrentHour()+":"+time.getCurrentMinute();
+		String dStr = new SimpleDateFormat("yyyy-MM-dd").format(ddate);
+
+		String tStr = new SimpleDateFormat("HH:mm").format(ddate);
 
 
 		appState.datasource.selectedClass.setDatetime(dStr+" "+tStr);
@@ -224,23 +247,21 @@ public class ExistClassActivity extends ListActivity {
 
 	}
 
-
-
 	private void enableInput() {
 		locationSpinner.setEnabled(true);
-		date.setEnabled(true);
-		time.setEnabled(true);
+		dateBtn.setEnabled(true);
+		timeBtn.setEnabled(true);
 		costumersList.setEnabled(true);
 
 	}
+
 	private void disableInput() {
 		locationSpinner.setEnabled(false);
-		date.setEnabled(false);
-		time.setEnabled(false);
+		dateBtn.setEnabled(false);
+		timeBtn.setEnabled(false);
 		costumersList.setEnabled(false);
 
 	}
-
 
 	private boolean inList(List<Costumer> costumersInclass, Costumer p1) {
 
@@ -249,6 +270,36 @@ public class ExistClassActivity extends ListActivity {
 				return true;
 		}
 		return false;
+	}
+
+	public void showDatePickerDialog(View v) {
+		DialogFragment newFragment = new DatePickerFragment();
+		newFragment.show(getFragmentManager(), "datePicker");
+	}
+
+	public void showTimePickerDialog(View v) {
+		DialogFragment newFragment = new TimePickerFragment();
+		newFragment.show(getFragmentManager(), "timePicker");
+	}
+
+	@Override
+	public void onDateSet(DatePicker view, int year, int month, int day) {
+
+		ddate.setMonth(month);
+		ddate.setYear(year);
+		ddate.setDate(day);
+
+		dateBtn.setText(day+"."+(month+1)+"."+year);
+
+	}
+
+	@Override
+	public void onTimeSet(TimePicker view, int hour, int min) {
+
+		ddate.setHours(hour);
+		ddate.setMinutes(min);
+
+		timeBtn.setText(hour+":"+min);
 	}
 
 }

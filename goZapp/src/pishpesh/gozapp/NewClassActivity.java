@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -32,17 +33,23 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.support.v4.app.NavUtils;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 
-public class NewClassActivity extends ListActivity {
+public class NewClassActivity extends ListActivity 
+implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
+{
 
 	goZappApplication appState = ((goZappApplication)this.getApplication());
 
 	private List<Costumer> custumers = new ArrayList<Costumer>(); 
 
-	private DatePicker date;
-	private Button createBtn;
-	private TimePicker time;
+	private Date ddate = new Date();
+	private Button dateBtn;
+	private Button timeBtn;
 
+	private Button createBtn;
+	
 	private TextView title;
 	private TextView counter;
 
@@ -54,13 +61,17 @@ public class NewClassActivity extends ListActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE );
 		setContentView(R.layout.activity_new_class);
 
-		date = (DatePicker)findViewById(R.id.datePicker1);
-		time = (TimePicker)findViewById(R.id.timePicker1);
-		time.setIs24HourView(true);
+		dateBtn = (Button)findViewById(R.id.dateBtn);
+		timeBtn = (Button)findViewById(R.id.timeBtn);
+
+		//date = (DatePicker)findViewById(R.id.datePicker1);
+		//time = (TimePicker)findViewById(R.id.timePicker1);
+		//time.setIs24HourView(true);
 
 		createBtn = (Button)findViewById(R.id.createClassBtn);
 		title = (TextView)findViewById(R.id.newClassTitle);
@@ -125,11 +136,10 @@ public class NewClassActivity extends ListActivity {
 					custumers.add((Costumer)classList.getAdapter().getItem(checked.keyAt(i)));
 			}
 		}
-		Date d = new Date(date.getYear()-1900, date.getMonth(), date.getDayOfMonth(), time.getCurrentHour(), time.getCurrentMinute());
 
-		String dStr = new SimpleDateFormat("yyyy-MM-dd").format(d);
+		String dStr = new SimpleDateFormat("yyyy-MM-dd").format(ddate);
 
-		String tStr = new SimpleDateFormat("HH:mm").format(d);
+		String tStr = new SimpleDateFormat("HH:mm").format(ddate);
 
 		Class newClass = appState.datasource.createClass(locationSpinner.getSelectedItem().toString(), dStr,tStr,custumers);
 
@@ -139,6 +149,34 @@ public class NewClassActivity extends ListActivity {
 
 	}
 
+	public void showDatePickerDialog(View v) {
+		DialogFragment newFragment = new DatePickerFragment();
+		newFragment.show(getFragmentManager(), "datePicker");
+	}
 
+	public void showTimePickerDialog(View v) {
+		DialogFragment newFragment = new TimePickerFragment();
+		newFragment.show(getFragmentManager(), "timePicker");
+	}
+
+	@Override
+	public void onDateSet(DatePicker view, int year, int month, int day) {
+		
+		ddate.setMonth(month);
+		ddate.setYear(year);
+		ddate.setDate(day);
+		
+		dateBtn.setText(day+"."+(month+1)+"."+year);
+
+	}
+
+	@Override
+	public void onTimeSet(TimePicker view, int hour, int min) {
+		
+		ddate.setHours(hour);
+		ddate.setMinutes(min);
+		
+		timeBtn.setText(hour+":"+min);
+	}
 }
 

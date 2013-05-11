@@ -35,6 +35,25 @@
                 android:text="Edit" />
         </LinearLayout>
 
+        <Spinner
+            android:id="@+id/exLocationSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/dateBtn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showDatePickerDialog"
+            android:text="Set Date" />
+
+        <Button
+            android:id="@+id/timeBtn1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showTimePickerDialog"
+            android:text="Set Time" />
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="2dp"
@@ -44,51 +63,9 @@
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="0.7"
+            android:layout_weight="7.72"
             android:choiceMode="multipleChoice" >
         </ListView>
-<View
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:background="@android:color/darker_gray" />
-
-        <ScrollView
-            android:id="@+id/scrollView1"
-            android:layout_width="match_parent"
-            android:layout_height="170dp" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <Spinner
-                        android:id="@+id/exLocationSpinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.52" />
-                </LinearLayout>
-
-                <DatePicker
-                    android:id="@+id/datePicker1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:calendarViewShown="false" />
-
-                <TimePicker
-                    android:id="@+id/timePicker1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
-        </ScrollView>
-
     </LinearLayout>
 
 </RelativeLayout>

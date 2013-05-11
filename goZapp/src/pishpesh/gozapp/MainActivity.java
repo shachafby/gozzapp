@@ -25,20 +25,11 @@ public class MainActivity extends Activity {
 
 		appState.datasource.open();
 		
-		initAppObjects();
+		appState.datasource.initAppObjects();
 
     }
 
-    private void initAppObjects() {
 
-
-    	appState.datasource.costumers = appState.datasource.getAllCostumers();
-    	
-    	appState.datasource.locations = appState.datasource.getAllLocations();
-    	
-    	appState.datasource.classes = appState.datasource.getAllClasses();
-    	
-	}
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
