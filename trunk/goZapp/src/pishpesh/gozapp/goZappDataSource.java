@@ -76,6 +76,17 @@ public class goZappDataSource {
 		dbHelper.close();
 	}
 
+    public void initAppObjects() {
+
+    	costumers = getAllCostumers();
+    	
+    	locations = getAllLocations();
+    	
+    	classes = getAllClasses();
+    	
+	}
+	
+	
 	public Costumer createCostumer(String name, String phone, String email, String notes) {
 		ContentValues values = new ContentValues();
 
@@ -238,7 +249,6 @@ public class goZappDataSource {
 
 	}
 
-
 	private boolean addCoustumerToClass(Class newClass, Costumer costumer) {
 
 		ContentValues values = new ContentValues();
@@ -341,7 +351,6 @@ public class goZappDataSource {
 				);
 	}
 
-
 	public int updateCostumersInClass(Class selectedClass, List<Costumer> costumersInclass) {
 
 		database.delete(gozappDBopener.TABLE_CosInClass, gozappDBopener.COLUMN_ClassID+"=?"	, 
@@ -437,7 +446,6 @@ public class goZappDataSource {
 		return classes;
 	}
 
-
 	public Location createLocation(String newLocationName) {
 		ContentValues values = new ContentValues();
 
@@ -472,6 +480,18 @@ public class goZappDataSource {
 
 		database.delete(gozappDBopener.TABLE_CLASSES, gozappDBopener.COLUMN_ID
 				+ " = " + id, null);
+	}
+
+	public void deletePurchase(Purchase p) {
+		database.delete(gozappDBopener.TABLE_Purchases, gozappDBopener.COLUMN_ID
+			+ " = " + p.getId(), null);
+		
+	}
+
+	public void removeCustumerFromClass(Class cl, Costumer customer) {
+		database.delete(gozappDBopener.TABLE_CosInClass, gozappDBopener.COLUMN_ClassID+"=? AND "+ gozappDBopener.COLUMN_CostumerID+"=?"	, 
+				new String[]{String.valueOf(cl.getId()), String.valueOf(customer.getId())});
+		
 	}
 
 

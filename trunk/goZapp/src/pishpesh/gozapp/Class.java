@@ -45,7 +45,7 @@ public class Class {
 	@Override
 	public String toString() {
 
-		datePrintFormat = new SimpleDateFormat("dd/MM/yy, HH:mm");
+		datePrintFormat = new SimpleDateFormat("dd.MM.yyyy, HH:mm");
 		return datePrintFormat.format(date)+" @"+location;		
 		
 	}
