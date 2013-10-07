@@ -8,34 +8,37 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.lang.String;
+
 public class gozappDBopener extends SQLiteOpenHelper {
 
-	public static final String TABLE_COSTUMERS = "costumers";
+    public static final String TABLE_CLASSES = "classes";
+    public static final String TABLE_LOCATIONS = "locations";
+    public static final String TABLE_CosInClass = "Costumer_in_Class";
+    public static final String TABLE_Purchases= "purchases";
+    public static final String TABLE_Products= "products";
+    public static final String TABLE_COSTUMERS = "costumers";
+
 	public static final String COLUMN_ID = "id";
 	public static final String COLUMN_NAME = "name";
 	public static final String COLUMN_PHONE = "phone";
 	public static final String COLUMN_EMAIL = "email";
 	public static final String COLUMN_CREDIT = "credit";
 	public static final String COLUMN_NOTES = "notes";
-
-	public static final String TABLE_CLASSES = "classes";
-	public static final String TABLE_LOCATIONS = "locations";
-
-	public static final String COLUMN_LOCATION = "location";
-	public static final String COLUMN_DATETIME = "datetime";
-
-
-	public static final String TABLE_CosInClass = "Costumer_in_Class";
-
-	public static String COLUMN_CostumerID="CostumerID";
-	public static String COLUMN_ClassID="ClassID";
-
-	public static String TABLE_Purchases= "purchases";
-	public static String COLUMN_PurchaseType="purchase_type";
+    public static final String COLUMN_LOCATION = "location";
+    public static final String COLUMN_DATETIME = "datetime";
+    public static final String COLUMN_CostumerID="CostumerID";
+    public static final String COLUMN_ClassID="ClassID";
+    public static final String COLUMN_PurchaseType="purchase_type";
+    public static final String COLUMN_AMOUNT="amount";
+    public static final String COLUMN_DURATION="duration";
+    public static final String COLUMN_START="start";
+    public static final String COLUMN_FINISH="finish";
+    public static final String  COLUMN_CURRENTMETHOD="current_method";
 
 
 	public static final String DATABASE_NAME = "goZapp.db";
-	public static final int DATABASE_VERSION = 2;
+	public static final int DATABASE_VERSION = 3;
 
 	// Database creation sql statement
 	private static final String COSTUMERS_CREATE = 
@@ -47,6 +50,7 @@ public class gozappDBopener extends SQLiteOpenHelper {
 					+ COLUMN_PHONE + " integer not null, "
 					+ COLUMN_EMAIL + " text, "					
 					+ COLUMN_NOTES + " text, "
+                    + COLUMN_CURRENTMETHOD + " integer, "
 					+ COLUMN_CREDIT + " integer default 0"
 					+");";
 	private static final String CLASSES_CREATE =
@@ -56,7 +60,6 @@ public class gozappDBopener extends SQLiteOpenHelper {
 					+ COLUMN_ID	+ " integer primary key autoincrement, "						
 					+ COLUMN_LOCATION + " integer REFERENCES "+TABLE_LOCATIONS+"("+COLUMN_ID+") ON DELETE RESTRICT, "
 					+ COLUMN_DATETIME + " text not null "
-					//+ "FOREIGN KEY("+COLUMN_LOCATION+") REFERENCES "+TABLE_LOCATIONS+"("+COLUMN_ID+") "
 					+");";
 
 	private static final String LOCATIONS_CREATE =
@@ -73,8 +76,8 @@ public class gozappDBopener extends SQLiteOpenHelper {
 					+ "(" 
 					+ COLUMN_ID	+ " integer primary key autoincrement, "						
 					+ COLUMN_CostumerID + " integer REFERENCES "+TABLE_COSTUMERS+"("+COLUMN_ID+") ON DELETE CASCADE, "
-					+ COLUMN_ClassID + " integer REFERENCES "+TABLE_CLASSES+"("+COLUMN_ID+") ON DELETE CASCADE"
-					
+					+ COLUMN_ClassID + " integer REFERENCES "+TABLE_CLASSES+"("+COLUMN_ID+") ON DELETE CASCADE, "
+                    + COLUMN_NOTES + " text "
 					+");";
 
 	private static final String Purchases_CREATE =
@@ -84,9 +87,23 @@ public class gozappDBopener extends SQLiteOpenHelper {
 					+ COLUMN_ID	+ " integer primary key autoincrement, "						
 					+ COLUMN_CostumerID + " integer REFERENCES "+TABLE_COSTUMERS+"("+COLUMN_ID+") ON DELETE CASCADE, "
 					+ COLUMN_DATETIME + " text not null, "
-					+ COLUMN_PurchaseType + " integer, "						
+					+ COLUMN_PurchaseType + " integer, "
+                    + COLUMN_START + " integer, "
+                    + COLUMN_FINISH + " integer, "
+                    + COLUMN_AMOUNT + " integer, "
 					+ COLUMN_NOTES + " text "						
 					+");";
+
+    private static final String Products_CREATE =
+            "create table "
+                    + TABLE_Products
+                    + "("
+                    + COLUMN_ID	+ " integer primary key autoincrement, "
+                    + COLUMN_NAME + " text, "
+                    + COLUMN_PRODUCTTYPE + " text not null, "
+                    + COLUMN_AMOUNT + " integer, "
+                    + COLUMN_DURATION + " integer "
+                    +");";
 
 	public gozappDBopener(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -102,7 +119,7 @@ public class gozappDBopener extends SQLiteOpenHelper {
 		database.execSQL(CLASSES_CREATE);
 		database.execSQL(CosInClass_CREATE);
 		database.execSQL(Purchases_CREATE);
-
+        database.execSQL(Products_CREATE);
 	}
 
 	@Override
@@ -123,17 +140,17 @@ public class gozappDBopener extends SQLiteOpenHelper {
 
 			//add previous locations
 			ContentValues values = new ContentValues();
-			values.put(gozappDBopener.COLUMN_NAME, "âáòú-çééí");
+			values.put(gozappDBopener.COLUMN_NAME, "ï¿½ï¿½ï¿½ï¿½-ï¿½ï¿½ï¿½ï¿½");
 			long insertId1 = database.insert(gozappDBopener.TABLE_LOCATIONS, null, values);
 			assert(insertId1!=-1);
 
 			values = new ContentValues();
-			values.put(gozappDBopener.COLUMN_NAME, "øîú-âï");
+			values.put(gozappDBopener.COLUMN_NAME, "ï¿½ï¿½ï¿½-ï¿½ï¿½");
 			long insertId2 = database.insert(gozappDBopener.TABLE_LOCATIONS, null, values);
 			assert(insertId2!=-1);
 
 			values = new ContentValues();
-			values.put(gozappDBopener.COLUMN_NAME, "øîú-çï");
+			values.put(gozappDBopener.COLUMN_NAME, "ï¿½ï¿½ï¿½-ï¿½ï¿½");
 			long insertId3 = database.insert(gozappDBopener.TABLE_LOCATIONS, null, values);
 			assert(insertId3!=-1);		
 
