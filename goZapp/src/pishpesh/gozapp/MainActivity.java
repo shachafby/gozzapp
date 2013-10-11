@@ -58,6 +58,11 @@ public class MainActivity extends Activity {
     	
     	startActivity(i);
     }
+    public void productsView(View view){
+        Intent i = new Intent(this,ProductsActivity.class);
+
+        startActivity(i);
+    }
     
     
 }

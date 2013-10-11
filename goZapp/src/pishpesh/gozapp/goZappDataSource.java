@@ -27,8 +27,9 @@ public class goZappDataSource {
 	public static List<Class> classes;
 	public static Costumer selectedCostumer;
 	public static Class selectedClass;
+    public static List<Product> products;
 
-	public static Map<Integer,Location> locations;
+    public static Map<Integer,Location> locations;
 
 	static String[] costumerColumns = { 
 		gozappDBopener.TABLE_COSTUMERS+"."+gozappDBopener.COLUMN_ID,
@@ -58,7 +59,15 @@ public class goZappDataSource {
 		gozappDBopener.TABLE_Purchases+"."+gozappDBopener.COLUMN_NOTES
 	};
 
-	public goZappDataSource(Context context) {
+    static String[] productColumns = {
+            gozappDBopener.TABLE_Products+"."+gozappDBopener.COLUMN_ID,
+            gozappDBopener.TABLE_Products+"."+gozappDBopener.COLUMN_NAME,
+            gozappDBopener.TABLE_Products+"."+gozappDBopener.COLUMN_PRODUCT_TYPE,
+            gozappDBopener.TABLE_Products+"."+gozappDBopener.COLUMN_AMOUNT,
+            gozappDBopener.TABLE_Products+"."+gozappDBopener.COLUMN_DURATION
+    };
+
+    public goZappDataSource(Context context) {
 		dbHelper = new gozappDBopener(context);
 	}
 
@@ -182,7 +191,7 @@ public class goZappDataSource {
 		return costumer;
 	}
 
-	public int updateCustumer(Costumer c) {
+	public int updateCustomer(Costumer c) {
 
 		ContentValues values = new ContentValues();
 
@@ -488,11 +497,65 @@ public class goZappDataSource {
 		
 	}
 
-	public void removeCustumerFromClass(Class cl, Costumer customer) {
+	public void removeCustomerFromClass(Class cl, Costumer customer) {
 		database.delete(gozappDBopener.TABLE_CosInClass, gozappDBopener.COLUMN_ClassID+"=? AND "+ gozappDBopener.COLUMN_CostumerID+"=?"	, 
 				new String[]{String.valueOf(cl.getId()), String.valueOf(customer.getId())});
 		
 	}
 
+    public Product createProduct(String ProductName, String ProductType, int amount, int duration){
 
+        ContentValues values = new ContentValues();
+        values.put(gozappDBopener.COLUMN_NAME, ProductName);
+        values.put(gozappDBopener.COLUMN_NAME, ProductName);
+        values.put(gozappDBopener.COLUMN_NAME, ProductName);
+        values.put(gozappDBopener.COLUMN_NAME, ProductName);
+
+        long insertId = database.insert(gozappDBopener.TABLE_Products, null, values);
+
+        assert(insertId!=-1);
+
+        Cursor cursor = database.query(gozappDBopener.TABLE_Products, productColumns, gozappDBopener.COLUMN_ID + " = " + insertId, null, null, null, null);
+        cursor.moveToFirst();
+        Product product = cursorToProduct(cursor);
+        cursor.close();
+        return product;
+
+    }
+
+    private Product cursorToProduct(Cursor cursor) {
+
+        Product p = new Product();
+        p.setId(cursor.getLong(0));
+        p.setName(cursor.getString(1));
+        p.setProductType(cursor.getString(2));
+        p.setAmount(cursor.getInt(3));
+        p.setDuration(cursor.getInt(4));
+
+        return p;
+
+    }
+
+    public void deleteProduct(Product p) {
+        long id = p.getId();
+
+        database.delete(gozappDBopener.TABLE_Products, gozappDBopener.COLUMN_ID
+                + " = " + id, null);
+    }
+
+    public List<Product> getAllProducts() {
+        List<Product> Products = new ArrayList<Product>();
+
+        Cursor cursor = database.query(gozappDBopener.TABLE_Products, productColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Product p = cursorToProduct(cursor);
+            Products.add(p);
+            cursor.moveToNext();
+        }
+        // Make sure to close the cursor
+        cursor.close();
+        return Products;
+    }
 } 

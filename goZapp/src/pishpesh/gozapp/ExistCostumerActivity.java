@@ -1,17 +1,14 @@
 package pishpesh.gozapp;
 
-import android.R.bool;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 
 public class ExistCostumerActivity extends Activity {
 
@@ -117,7 +114,7 @@ public class ExistCostumerActivity extends Activity {
 		appState.datasource.selectedCostumer.setEmail(email.getText().toString());
 		appState.datasource.selectedCostumer.setNotes(notes.getText().toString());
 				
-		int i = appState.datasource.updateCustumer(appState.datasource.selectedCostumer);
+		int i = appState.datasource.updateCustomer(appState.datasource.selectedCostumer);
 		
 	}
 
