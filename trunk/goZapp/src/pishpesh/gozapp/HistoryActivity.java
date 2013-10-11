@@ -10,17 +10,14 @@ import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.TabHost.TabSpec;
-import android.support.v4.app.NavUtils;
 
 public class HistoryActivity extends ListActivity {
 
@@ -133,7 +130,7 @@ public class HistoryActivity extends ListActivity {
 								appState.datasource.selectedCostumer.getCredit()+1);
 						
 						//remove CustumerFromClass
-						appState.datasource.removeCustumerFromClass(c, appState.datasource.selectedCostumer);
+						appState.datasource.removeCustomerFromClass(c, appState.datasource.selectedCostumer);
 						
 						appState.datasource.initAppObjects();
 						

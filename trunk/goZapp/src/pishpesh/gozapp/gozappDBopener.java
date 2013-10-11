@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -34,7 +33,9 @@ public class gozappDBopener extends SQLiteOpenHelper {
     public static final String COLUMN_DURATION="duration";
     public static final String COLUMN_START="start";
     public static final String COLUMN_FINISH="finish";
-    public static final String  COLUMN_CURRENTMETHOD="current_method";
+    public static final String COLUMN_CURRENT_METHOD ="current_method";
+    public static final String COLUMN_PRODUCT_TYPE ="product_type";
+
 
 
 	public static final String DATABASE_NAME = "goZapp.db";
@@ -50,7 +51,7 @@ public class gozappDBopener extends SQLiteOpenHelper {
 					+ COLUMN_PHONE + " integer not null, "
 					+ COLUMN_EMAIL + " text, "					
 					+ COLUMN_NOTES + " text, "
-                    + COLUMN_CURRENTMETHOD + " integer, "
+                    + COLUMN_CURRENT_METHOD + " integer, "
 					+ COLUMN_CREDIT + " integer default 0"
 					+");";
 	private static final String CLASSES_CREATE =
@@ -100,7 +101,7 @@ public class gozappDBopener extends SQLiteOpenHelper {
                     + "("
                     + COLUMN_ID	+ " integer primary key autoincrement, "
                     + COLUMN_NAME + " text, "
-                    + COLUMN_PRODUCTTYPE + " text not null, "
+                    + COLUMN_PRODUCT_TYPE + " text not null, "
                     + COLUMN_AMOUNT + " integer, "
                     + COLUMN_DURATION + " integer "
                     +");";
