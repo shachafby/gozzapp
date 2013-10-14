@@ -89,4 +89,35 @@ public class ProductsActivity extends ListActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+
+        @SuppressWarnings("unchecked")
+
+        ArrayAdapter<Product> adapter = (ArrayAdapter<Product>) getListAdapter();
+
+        adapter.notifyDataSetChanged();
+    }
+
+    public void newProductView(View view){
+        Intent i = new Intent(this,NewProductActivity.class);
+
+        startActivity(i);
+    }
+
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+
+        super.onListItemClick(l, v, position, id);
+
+        appState.datasource.selectedProduct = (Product)l.getAdapter().getItem(position);
+
+        Intent i = new Intent(this,ExistProductActivity.class);
+        startActivity(i);
+
+    }
 }

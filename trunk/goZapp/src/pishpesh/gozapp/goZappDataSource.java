@@ -27,6 +27,7 @@ public class goZappDataSource {
 	public static List<Class> classes;
 	public static Costumer selectedCostumer;
 	public static Class selectedClass;
+    public Product selectedProduct;
     public static List<Product> products;
 
     public static Map<Integer,Location> locations;
@@ -66,6 +67,7 @@ public class goZappDataSource {
             gozappDBopener.TABLE_Products+"."+gozappDBopener.COLUMN_AMOUNT,
             gozappDBopener.TABLE_Products+"."+gozappDBopener.COLUMN_DURATION
     };
+
 
     public goZappDataSource(Context context) {
 		dbHelper = new gozappDBopener(context);
