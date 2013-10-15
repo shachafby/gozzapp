@@ -509,9 +509,9 @@ public class goZappDataSource {
 
         ContentValues values = new ContentValues();
         values.put(gozappDBopener.COLUMN_NAME, ProductName);
-        values.put(gozappDBopener.COLUMN_NAME, ProductName);
-        values.put(gozappDBopener.COLUMN_NAME, ProductName);
-        values.put(gozappDBopener.COLUMN_NAME, ProductName);
+        values.put(gozappDBopener.COLUMN_PRODUCT_TYPE, ProductType);
+        values.put(gozappDBopener.COLUMN_AMOUNT, amount);
+        values.put(gozappDBopener.COLUMN_DURATION, duration);
 
         long insertId = database.insert(gozappDBopener.TABLE_Products, null, values);
 
