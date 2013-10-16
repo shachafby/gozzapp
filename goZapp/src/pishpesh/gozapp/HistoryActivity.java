@@ -166,11 +166,6 @@ public class HistoryActivity extends ListActivity {
 
 		adapter.notifyDataSetChanged();
 	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-//		getMenuInflater().inflate(R.menu.activity_history, menu);
-	return true;
 
-	}
 
 }

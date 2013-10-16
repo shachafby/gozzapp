@@ -177,12 +177,6 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 		}
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_exist_class, menu);
-		return true;
-	}
-
 	public void onEditClassClick(View view) {
 		//save pressed
 		if(canEditMode){

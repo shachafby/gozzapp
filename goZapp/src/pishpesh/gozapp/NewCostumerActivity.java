@@ -1,18 +1,12 @@
 package pishpesh.gozapp;
 
 import android.os.Bundle;
-import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 
@@ -103,11 +97,6 @@ public class NewCostumerActivity extends Activity {
 		super.onPause();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_new_costumer, menu);
-		return true;
-	}
 
 
 

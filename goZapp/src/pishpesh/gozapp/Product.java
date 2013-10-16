@@ -53,6 +53,9 @@ public class Product {
 
     @Override
     public String toString() {
-        return name;
+        int val;
+
+        val = amount>0 ? amount : duration;
+        return name + " ("+productType+" "+val+")";
     }
 }

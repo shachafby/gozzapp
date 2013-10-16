@@ -46,6 +46,12 @@ public class NewProductActivity extends Activity {
         monthsPicker.setEnabled(false);
         CreateProductBtn.setEnabled(false);
 
+        amountPicker.setMinValue(0);
+        amountPicker.setMaxValue(100);
+
+        monthsPicker.setMinValue(0);
+        monthsPicker.setMaxValue(12);
+
         productRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -54,6 +60,7 @@ public class NewProductActivity extends Activity {
                 if (checkedRadio==ByAmountRadioButton.getId()){
                     amountPicker.setEnabled(true);
                     monthsPicker.setEnabled(false);
+
                     productType = PRODUCT_TYPE.ByAmount;
                 }
                 if (checkedRadio==ByPeriodRadioButton.getId()){
@@ -61,7 +68,32 @@ public class NewProductActivity extends Activity {
                     monthsPicker.setEnabled(true);
                     productType = PRODUCT_TYPE.ByPeriod;
                 }
+
+                if(isValidInput())
+                    CreateProductBtn.setEnabled(true);
+                else
+                    CreateProductBtn.setEnabled(false);
                  }
+        });
+
+        amountPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                if(isValidInput())
+                    CreateProductBtn.setEnabled(true);
+                else
+                    CreateProductBtn.setEnabled(false);
+            }
+        });
+
+        monthsPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                if(isValidInput())
+                    CreateProductBtn.setEnabled(true);
+                else
+                    CreateProductBtn.setEnabled(false);
+            }
         });
 
         productName.addTextChangedListener(new TextWatcher() {
@@ -97,12 +129,6 @@ public class NewProductActivity extends Activity {
             return false;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_new_product, menu);
-        return true;
-    }
-
     public void onCreateProduct(View view) {
 
         Product p = null;
@@ -113,7 +139,7 @@ public class NewProductActivity extends Activity {
             p = appState.datasource.createProduct(productName.getText().toString(),"ByPeriod" , 0, monthsPicker.getValue());
         }
 
-        Intent i = new Intent(this,CostumersActivity.class);
+        Intent i = new Intent(this,ProductsActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
 
