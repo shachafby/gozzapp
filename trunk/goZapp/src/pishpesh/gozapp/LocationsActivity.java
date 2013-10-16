@@ -90,12 +90,6 @@ public class LocationsActivity extends ListActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_locations, menu);
-		return true;
-	}
-
-	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();

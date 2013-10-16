@@ -101,12 +101,6 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 		locationSpinner.setAdapter(locAdapter);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_new_class, menu);
-		return true;
-	}
-
 	public void onListClick(View v){
 
 		checked = classList.getCheckedItemPositions();

@@ -9,16 +9,12 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.webkit.WebChromeClient.CustomViewCallback;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.support.v4.app.NavUtils;
 
 public class CostumersActivity extends ListActivity {
 
@@ -100,12 +96,6 @@ public class CostumersActivity extends ListActivity {
 	protected void onPause() {
 		//appState.datasource.close();
 		super.onPause();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_costumers, menu);
-		return true;
 	}
 
 	public void newCostumerView(View view){

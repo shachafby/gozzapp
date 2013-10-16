@@ -91,13 +91,7 @@ public class ClassesActivity extends ListActivity {
 		adapter.notifyDataSetChanged();
 	}
 
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_classes, menu);
-        return true;
-    }
-
-    public void newClassView(View view){
+     public void newClassView(View view){
     	Intent i = new Intent(this,NewClassActivity.class);
     	
     	startActivity(i);

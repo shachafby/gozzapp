@@ -114,10 +114,5 @@ public class ProductsActivity extends ListActivity {
 
         super.onListItemClick(l, v, position, id);
 
-        appState.datasource.selectedProduct = (Product)l.getAdapter().getItem(position);
-
-        Intent i = new Intent(this,ExistProductActivity.class);
-        startActivity(i);
-
     }
 }

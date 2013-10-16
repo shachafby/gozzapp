@@ -1,23 +1,19 @@
 package pishpesh.gozapp;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.app.ListActivity;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.support.v4.app.NavUtils;
 
-public class NewPurchaseActivity extends Activity {
+public class NewPurchaseActivity extends ListActivity {
 
 
 	goZappApplication appState = ((goZappApplication)this.getApplication());
@@ -41,12 +37,6 @@ public class NewPurchaseActivity extends Activity {
 		addBtn = (Button)findViewById(R.id.addItemButton);
 
 		comment = (EditText)findViewById(R.id.commentText);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_new_purchase, menu);
-		return true;
 	}
 
 	public void onAdd(View v){

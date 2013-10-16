@@ -74,12 +74,6 @@ public class ExistCostumerActivity extends Activity {
         notes.setText(appState.datasource.selectedCostumer.getNotes());
 	}
 
-	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-       getMenuInflater().inflate(R.menu.activity_exist_costumer, menu);
-        return true;
-    }
-    
     public void onEditClick(View view) {
     	//save pressed
     	if(canEditMode){
