@@ -24,45 +24,28 @@
             android:layout_width="fill_parent"
             android:layout_height="2dp"
             android:background="@android:color/darker_gray" />
-        <ScrollView
-            android:id="@+id/scrollView1"
-            android:layout_width="match_parent"
+
+        <ListView
+           android:id="@android:id/list"
+           android:layout_width="match_parent"
+           android:layout_height="199dp"
+           android:layout_weight="0.13"
+           android:choiceMode="singleChoice" >
+       </ListView>
+
+        <Button
+            android:layout_width="373dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.04" >
-
-            <RadioGroup
-                android:id="@+id/radioGroup1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.50" >
-
-                <RadioButton
-                    android:id="@+id/fiveClassRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="5 Classes" />
-
-                <RadioButton
-                    android:id="@+id/tenClassRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="10 Classes" />
-
-                <RadioButton
-                    android:id="@+id/trailRadio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1 Trial Class" />
-            </RadioGroup>
-
-        </ScrollView>
+            android:text="Select Start Date"
+            android:id="@+id/startPeriodButton"
+            android:onClick="showDatePickerDialog"
+            android:enabled="true" />
 
         <EditText
             android:id="@+id/commentText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.21"
+            android:layout_weight="0.11"
             android:ems="10"
             android:hint="Comment"
             android:inputType="textMultiLine" >

@@ -87,7 +87,7 @@ public class HistoryActivity extends ListActivity {
 						
 						//remove credit		
 						appState.datasource.updateCredit(appState.datasource.selectedCostumer.getId(), 
-								appState.datasource.selectedCostumer.getCredit()-p.getPurchaseType());
+								appState.datasource.selectedCostumer.getCredit()-p.getAmount());
 						//remove purchase
 						appState.datasource.deletePurchase(p);
 						

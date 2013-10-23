@@ -5,24 +5,65 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Purchase {
-	
+
+    /*
+       "create table "
+					+ TABLE_Purchases
+					+ "("
+					+ COLUMN_ID	+ " integer primary key autoincrement, "
+					+ COLUMN_CostumerID + " integer REFERENCES "+TABLE_COSTUMERS+"("+COLUMN_ID+") ON DELETE CASCADE, "
+					+ COLUMN_DATETIME + " text not null, "
+					+ COLUMN_PurchaseType + " text, "
+                    + COLUMN_START + " text, "
+                    + COLUMN_FINISH + " text, "
+                    + COLUMN_AMOUNT + " integer, "
+					+ COLUMN_NOTES + " text "
+					+");";
+    */
 
 	private long id;
 	private int costumerID;
 	private String datetime;
-	private int purchaseType;
-	private String comment;
-	
-	
-	private Date date;
-	
-	
+	private PRODUCT_TYPE purchaseType;
+    private String startTime;
+    private String finishTime;
+    private int amount;
+    private String comment;
 
-	public int getPurchaseType() {
+    private Date date;
+
+    public String getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(String finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+	public PRODUCT_TYPE getPurchaseType() {
 		return purchaseType;
 	}
-	public void setPurchaseType(int purchaseType) {
-		this.purchaseType = purchaseType;
+	public void setPurchaseType(String purchaseType) {
+        if(purchaseType.equals(PRODUCT_TYPE.ByPeriod.name()))
+            this.purchaseType = PRODUCT_TYPE.ByPeriod;
+        else
+            this.purchaseType = PRODUCT_TYPE.ByAmount;
 	}
 	
 	public long getId() {
@@ -54,7 +95,9 @@ public class Purchase {
 	@Override
 	public String toString() {
 
-		return (new SimpleDateFormat("dd/MM/yy").format(date))+" bought "+purchaseType+" classes";		
+        if(purchaseType.equals(PRODUCT_TYPE.ByAmount.name()))
+		    return (new SimpleDateFormat("dd/MM/yy").format(date))+" bought "+getAmount()+" classes";
+        return (new SimpleDateFormat("dd/MM/yy").format(date))+" bought "+getAmount()+" month(s)";
 			
 	}
 	

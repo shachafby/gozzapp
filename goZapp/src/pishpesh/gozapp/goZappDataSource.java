@@ -373,13 +373,18 @@ public class goZappDataSource {
 		return 0;
 	}
 
-	public Purchase createPurchase(long cosId, int creditDelta, String comment, Date d) {
+
+
+	public Purchase createPurchase(long cosId, Date d, PRODUCT_TYPE product_type, Date start, Date finish, int amount, String comment) {
 		ContentValues values = new ContentValues();
 
 		values.put(gozappDBopener.COLUMN_CostumerID, cosId);
 		values.put(gozappDBopener.COLUMN_DATETIME, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(d));
-		values.put(gozappDBopener.COLUMN_PurchaseType, creditDelta);
-		values.put(gozappDBopener.COLUMN_NOTES, comment);
+        values.put(gozappDBopener.COLUMN_PurchaseType, product_type.name());
+        values.put(gozappDBopener.COLUMN_START, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(start));
+        values.put(gozappDBopener.COLUMN_FINISH, new SimpleDateFormat("yyyy-MM-dd HH:mm").format(finish));
+        values.put(gozappDBopener.COLUMN_AMOUNT, amount);
+        values.put(gozappDBopener.COLUMN_NOTES, comment);
 
 		long insertId = database.insert(gozappDBopener.TABLE_Purchases, null, values);
 
@@ -397,7 +402,7 @@ public class goZappDataSource {
 		p.setId(cursor.getLong(0));
 		p.setCostumerID(cursor.getInt(1));
 		p.setDatetime(cursor.getString(2));
-		p.setPurchaseType(cursor.getInt(3));
+		p.setPurchaseType(cursor.getString(3));
 		p.setComment(cursor.getString(4));
 
 		return p;

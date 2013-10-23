@@ -88,9 +88,9 @@ public class gozappDBopener extends SQLiteOpenHelper {
 					+ COLUMN_ID	+ " integer primary key autoincrement, "						
 					+ COLUMN_CostumerID + " integer REFERENCES "+TABLE_COSTUMERS+"("+COLUMN_ID+") ON DELETE CASCADE, "
 					+ COLUMN_DATETIME + " text not null, "
-					+ COLUMN_PurchaseType + " integer, "
-                    + COLUMN_START + " integer, "
-                    + COLUMN_FINISH + " integer, "
+					+ COLUMN_PurchaseType + " text, "
+                    + COLUMN_START + " text, "
+                    + COLUMN_FINISH + " text, "
                     + COLUMN_AMOUNT + " integer, "
 					+ COLUMN_NOTES + " text "						
 					+");";

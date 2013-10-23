@@ -134,9 +134,9 @@ public class NewProductActivity extends Activity {
         Product p = null;
 
         if(productType==PRODUCT_TYPE.ByAmount)
-            p = appState.datasource.createProduct(productName.getText().toString(),"ByAmount",amountPicker.getValue(),0);
+            p = appState.datasource.createProduct(productName.getText().toString(),productType.name(),amountPicker.getValue(),0);
         else {
-            p = appState.datasource.createProduct(productName.getText().toString(),"ByPeriod" , 0, monthsPicker.getValue());
+            p = appState.datasource.createProduct(productName.getText().toString(),productType.name() , 0, monthsPicker.getValue());
         }
 
         Intent i = new Intent(this,ProductsActivity.class);
@@ -145,17 +145,5 @@ public class NewProductActivity extends Activity {
 
 
     }
-    public enum PRODUCT_TYPE{
-        ByAmount (1), ByPeriod (2);
 
-        private int value;
-
-        private PRODUCT_TYPE(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
 }
