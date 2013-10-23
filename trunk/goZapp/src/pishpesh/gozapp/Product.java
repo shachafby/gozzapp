@@ -7,7 +7,7 @@ public class Product {
 
     private long id;
     private String name;
-    private String productType;
+    private PRODUCT_TYPE productType;
     private int amount;
     private int duration;
 
@@ -27,12 +27,16 @@ public class Product {
         this.name = name;
     }
 
-    public String getProductType() {
+    public PRODUCT_TYPE getProductType() {
         return productType;
     }
 
     public void setProductType(String productType) {
-        this.productType = productType;
+
+        if(productType.equals(PRODUCT_TYPE.ByPeriod.name()))
+            this.productType = PRODUCT_TYPE.ByPeriod;
+        else
+            this.productType = PRODUCT_TYPE.ByAmount;
     }
 
     public int getAmount() {

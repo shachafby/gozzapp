@@ -10,7 +10,6 @@ import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.util.SparseBooleanArray;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -31,7 +30,7 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 
 	goZappApplication appState = ((goZappApplication)this.getApplication());
 
-	private List<Costumer> custumers = new ArrayList<Costumer>(); 
+	private List<Costumer> costumers = new ArrayList<Costumer>();
 
 	private Date ddate = new Date();
 	private Button dateBtn;
@@ -110,13 +109,13 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 
 	public void onCreateClass(View v){
 
-		custumers.clear();
+		costumers.clear();
 
 		checked = classList.getCheckedItemPositions();
 		if(checked!=null){    	
 			for(int i=0;i<checked.size();i++){
 				if(checked.valueAt(i)==true)
-					custumers.add((Costumer)classList.getAdapter().getItem(checked.keyAt(i)));
+					costumers.add((Costumer)classList.getAdapter().getItem(checked.keyAt(i)));
 			}
 		}
 
@@ -124,7 +123,7 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 
 		String tStr = new SimpleDateFormat("HH:mm").format(ddate);
 
-		Class newClass = appState.datasource.createClass(locationSpinner.getSelectedItem().toString(), dStr,tStr,custumers);
+		Class newClass = appState.datasource.createClass(locationSpinner.getSelectedItem().toString(), dStr,tStr, costumers);
 
 		Intent i = new Intent(this,ClassesActivity.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
