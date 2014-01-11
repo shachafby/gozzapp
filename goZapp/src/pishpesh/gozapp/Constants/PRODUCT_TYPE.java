@@ -1,4 +1,4 @@
-package pishpesh.gozapp;
+package pishpesh.gozapp.Constants;
 
 /**
  * Created by DavarGozal on 10/18/13.
