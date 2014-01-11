@@ -24,6 +24,10 @@ import android.widget.TimePicker;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 
+import pishpesh.gozapp.Entities.Costumer;
+import pishpesh.gozapp.Entities.Location;
+import pishpesh.gozapp.Entities.Class;
+
 public class NewClassActivity extends ListActivity 
 implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
@@ -32,7 +36,7 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 
 	private List<Costumer> costumers = new ArrayList<Costumer>();
 
-	private Date ddate = new Date();
+	private Date classDate = new Date();
 	private Button dateBtn;
 	private Button timeBtn;
 
@@ -40,11 +44,8 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 	
 	private TextView title;
 	private TextView counter;
-
 	private ListView classList;
-
 	private Spinner locationSpinner;
-
 	private SparseBooleanArray checked;
 
 	@Override
@@ -114,21 +115,20 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 		checked = classList.getCheckedItemPositions();
 		if(checked!=null){    	
 			for(int i=0;i<checked.size();i++){
-				if(checked.valueAt(i)==true)
+				if(checked.valueAt(i))
 					costumers.add((Costumer)classList.getAdapter().getItem(checked.keyAt(i)));
 			}
 		}
 
-		String dStr = new SimpleDateFormat("yyyy-MM-dd").format(ddate);
+		String dStr = new SimpleDateFormat("yyyy-MM-dd").format(classDate);
 
-		String tStr = new SimpleDateFormat("HH:mm").format(ddate);
+		String tStr = new SimpleDateFormat("HH:mm").format(classDate);
 
 		Class newClass = appState.datasource.createClass(locationSpinner.getSelectedItem().toString(), dStr,tStr, costumers);
 
 		Intent i = new Intent(this,ClassesActivity.class);
 		i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(i);
-
 	}
 
 	public void showDatePickerDialog(View v) {
@@ -144,9 +144,9 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 	@Override
 	public void onDateSet(DatePicker view, int year, int month, int day) {
 		
-		ddate.setMonth(month);
-		ddate.setYear(year);
-		ddate.setDate(day);
+		classDate.setMonth(month);
+		classDate.setYear(year);
+		classDate.setDate(day);
 		
 		dateBtn.setText(day+"."+(month+1)+"."+year);
 
@@ -155,9 +155,8 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 	@Override
 	public void onTimeSet(TimePicker view, int hour, int min) {
 		
-		ddate.setHours(hour);
-		ddate.setMinutes(min);
-		
+		classDate.setHours(hour);
+		classDate.setMinutes(min);
 		timeBtn.setText(hour+":"+min);
 	}
 }

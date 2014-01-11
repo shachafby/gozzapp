@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
+
+import pishpesh.gozapp.Constants.PRODUCT_TYPE;
 
 /**
  * Created by DavarGozal on 10/13/13.
@@ -60,7 +61,6 @@ public class NewProductActivity extends Activity {
                 if (checkedRadio==ByAmountRadioButton.getId()){
                     amountPicker.setEnabled(true);
                     monthsPicker.setEnabled(false);
-
                     productType = PRODUCT_TYPE.ByAmount;
                 }
                 if (checkedRadio==ByPeriodRadioButton.getId()){
@@ -134,9 +134,9 @@ public class NewProductActivity extends Activity {
         Product p = null;
 
         if(productType==PRODUCT_TYPE.ByAmount)
-            p = appState.datasource.createProduct(productName.getText().toString(),productType.name(),amountPicker.getValue(),0);
+            p = appState.datasource.createProduct(productName.getText().toString(),productType.name(),amountPicker.getValue());
         else {
-            p = appState.datasource.createProduct(productName.getText().toString(),productType.name() , 0, monthsPicker.getValue());
+            p = appState.datasource.createProduct(productName.getText().toString(),productType.name() ,monthsPicker.getValue());
         }
 
         Intent i = new Intent(this,ProductsActivity.class);

@@ -3,22 +3,17 @@ package pishpesh.gozapp;
 import android.app.Activity;
 import android.os.Bundle;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 
-import android.os.Bundle;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 
 /**
@@ -45,8 +40,7 @@ public class ProductsActivity extends ListActivity {
             @Override
             public int compare(Product p1, Product p2) {
                 return p1.getName().compareTo(p2.getName());
-            }});
-
+    }});
         setListAdapter(adapter);
 
         final ListView listview = this.getListView();

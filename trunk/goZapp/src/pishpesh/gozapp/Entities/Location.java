@@ -1,4 +1,4 @@
-package pishpesh.gozapp;
+package pishpesh.gozapp.Entities;
 
 public class Location {
 

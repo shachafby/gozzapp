@@ -30,7 +30,8 @@ public class gozappDBopener extends SQLiteOpenHelper {
     public static final String COLUMN_ClassID="ClassID";
     public static final String COLUMN_PurchaseType="purchase_type";
     public static final String COLUMN_AMOUNT="amount";
-    public static final String COLUMN_DURATION="duration";
+    //public static final String COLUMN_DURATION="duration";
+    public static final String COLUMN_VOLUME = "volume";
     public static final String COLUMN_START="start";
     public static final String COLUMN_FINISH="finish";
     public static final String COLUMN_CURRENT_METHOD ="current_method";
@@ -102,11 +103,11 @@ public class gozappDBopener extends SQLiteOpenHelper {
                     + COLUMN_ID	+ " integer primary key autoincrement, "
                     + COLUMN_NAME + " text, "
                     + COLUMN_PRODUCT_TYPE + " text not null, "
-                    + COLUMN_AMOUNT + " integer, "
-                    + COLUMN_DURATION + " integer "
+                    + COLUMN_VOLUME + " integer "
                     +");";
 
-	public gozappDBopener(Context context) {
+
+    public gozappDBopener(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		//context.deleteDatabase(DATABASE_NAME);
 	}

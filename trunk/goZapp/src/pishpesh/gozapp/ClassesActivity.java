@@ -8,15 +8,14 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.support.v4.app.NavUtils;
+
+import pishpesh.gozapp.Entities.Class;
 
 public class ClassesActivity extends ListActivity {
 
@@ -32,7 +31,7 @@ public class ClassesActivity extends ListActivity {
 
 		//	     Use the SimpleCursorAdapter to show the
 		//	     elements in a ListView
-		ArrayAdapter<Class> adapter = new ArrayAdapter<Class>(this,android.R.layout.simple_list_item_1, appState.datasource.classes);
+		ArrayAdapter<pishpesh.gozapp.Entities.Class> adapter = new ArrayAdapter<Class>(this,android.R.layout.simple_list_item_1, appState.datasource.classes);
 		adapter.sort(new Comparator<Class> (){
 			@Override
 			public int compare(Class p1, Class p2) {

@@ -1,5 +1,6 @@
 package pishpesh.gozapp;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,16 +20,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 
-public class NewPurchaseActivity extends ListActivity implements DatePickerDialog.OnDateSetListener{
+import pishpesh.gozapp.Constants.PRODUCT_TYPE;
+import pishpesh.gozapp.Entities.Purchase;
 
+public class NewPurchaseActivity extends ListActivity implements DatePickerDialog.OnDateSetListener{
 
 	goZappApplication appState = ((goZappApplication)this.getApplication());
 
-
     private ListView ProductList;
 
-    private List<Product> products = new ArrayList<Product>();
-
+    private List<AmountProduct> products = new ArrayList<AmountProduct>();
 
     //private RadioButton checkedRadioButton;
 	//private RadioGroup rGroup;
@@ -53,6 +54,7 @@ public class NewPurchaseActivity extends ListActivity implements DatePickerDialo
         ProductList = getListView();
 
         addBtn = (Button)findViewById(R.id.addItemButton);
+        addBtn.setEnabled(false);
 		comment = (EditText)findViewById(R.id.commentText);
         startPeriodButton = (Button)findViewById(R.id.startPeriodButton);
 
@@ -64,12 +66,16 @@ public class NewPurchaseActivity extends ListActivity implements DatePickerDialo
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                selectedProduct = (Product)ProductList.getAdapter().getItem(position);
-                if(selectedProduct.getProductType().equals(PRODUCT_TYPE.ByPeriod.name()))
-                    startPeriodButton.setVisibility(View.VISIBLE);
-                else
-                    startPeriodButton.setVisibility(View.INVISIBLE);
 
+                selectedProduct = (Product)ProductList.getAdapter().getItem(position);
+                if(selectedProduct instanceof PeriodProduct){
+                    addBtn.setEnabled(false);
+                    startPeriodButton.setVisibility(View.VISIBLE);
+                }
+                else{
+                    addBtn.setEnabled(true);
+                    startPeriodButton.setVisibility(View.INVISIBLE);
+                }
             }
         });
 
@@ -83,19 +89,28 @@ public class NewPurchaseActivity extends ListActivity implements DatePickerDialo
 
     public void onAdd(View v){
 
-		int creditDelta=0;
+		//int creditDelta=0;
 	
-		//write purchase
+		//write purchase__
 		Date d = Calendar.getInstance().getTime();
-		Purchase p = appState.datasource.createPurchase(appState.datasource.selectedCostumer.getId(),d, selectedProduct.getProductType(), startDate, finishDate, selectedProduct.getAmount(),comment.getText().toString());
-
+		Purchase p = appState.datasource.createPurchase(
+                appState.datasource.selectedCostumer.getId(),
+                d,
+                selectedProduct.getProductType(),
+                startDate,
+                finishDate,
+                selectedProduct.getVolume(),
+                comment.getText().toString());
 
         /*
         if needed.
         maybe status update
          */
-		//add credit		
-		appState.datasource.updateCredit(appState.datasource.selectedCostumer.getId(), appState.datasource.selectedCostumer.getCredit()+creditDelta);
+		//add credit
+        if(selectedProduct.getProductType()== PRODUCT_TYPE.ByAmount)
+		appState.datasource.updateCredit(
+                appState.datasource.selectedCostumer.getId(),
+                appState.datasource.selectedCostumer.getCredit()+selectedProduct.getVolume());
  
         Intent i = new Intent(this,CostumersActivity.class);
     	i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -112,10 +127,14 @@ public class NewPurchaseActivity extends ListActivity implements DatePickerDialo
         cal.set(Calendar.DAY_OF_MONTH, day);
         startDate = cal.getTime();
 
-        cal.add(Calendar.MONTH, selectedProduct.getAmount());
+        cal.add(Calendar.MONTH, selectedProduct.getVolume());
         finishDate=cal.getTime();
 
-        startPeriodButton.setText("start:"+day+"."+(month+1)+"."+year);
+        //startPeriodButton.setText("start:"+day+"."+(month+1)+"."+year);
+        startPeriodButton.setText(new SimpleDateFormat("dd/MM/yy").format(startDate)+" - "+
+                new SimpleDateFormat("dd/MM/yy").format(finishDate));
+
+        addBtn.setEnabled(true);
 
 
     }
