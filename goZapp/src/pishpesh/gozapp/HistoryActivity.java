@@ -9,7 +9,6 @@ import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -18,6 +17,10 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.TabHost.TabSpec;
+
+import pishpesh.gozapp.Entities.Class;
+import pishpesh.gozapp.Entities.Costumer;
+import pishpesh.gozapp.Entities.Purchase;
 
 public class HistoryActivity extends ListActivity {
 
@@ -59,7 +62,7 @@ public class HistoryActivity extends ListActivity {
 		setListAdapter(adapter);
 
 		classList = (ListView) findViewById( R.id.Classes);
-		List<Class> classes = appState.datasource.getClassesByCostumer(appState.datasource.selectedCostumer);
+		List<pishpesh.gozapp.Entities.Class> classes = appState.datasource.getClassesByCostumer(appState.datasource.selectedCostumer);
 		classList.setAdapter(new ArrayAdapter<Class>(this,android.R.layout.simple_list_item_1, classes));
 		
 		((ArrayAdapter) classList.getAdapter()).sort(new Comparator<Class> (){
@@ -87,7 +90,7 @@ public class HistoryActivity extends ListActivity {
 						
 						//remove credit		
 						appState.datasource.updateCredit(appState.datasource.selectedCostumer.getId(), 
-								appState.datasource.selectedCostumer.getCredit()-p.getAmount());
+								appState.datasource.selectedCostumer.getCredit()-p.getVolume());
 						//remove purchase
 						appState.datasource.deletePurchase(p);
 						

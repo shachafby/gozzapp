@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.text.Editable;
 import android.text.TextWatcher;
 
+import pishpesh.gozapp.Entities.Costumer;
+
 public class NewCostumerActivity extends Activity {
 
 	goZappApplication appState = ((goZappApplication)this.getApplication());

@@ -2,36 +2,32 @@ package pishpesh.gozapp;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.app.ListActivity;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.util.SparseBooleanArray;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TimePicker;
-import android.support.v4.app.NavUtils;
+
+import pishpesh.gozapp.Entities.Costumer;
+import pishpesh.gozapp.Entities.Location;
 
 public class ExistClassActivity extends ListActivity 
 implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -157,7 +153,7 @@ implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListene
 
 	}
 
-	private void setLocSpiner(Class selectedClass, Spinner locationSpinner) {
+	private void setLocSpiner(pishpesh.gozapp.Entities.Class selectedClass, Spinner locationSpinner) {
 		for(int p=0;p<locationSpinner.getCount();p++){
 			if(locationSpinner.getItemAtPosition(p).toString().equals(selectedClass.getLocation()))
 				locationSpinner.setSelection(p);

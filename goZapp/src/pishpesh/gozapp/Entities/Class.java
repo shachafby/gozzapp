@@ -1,4 +1,4 @@
-package pishpesh.gozapp;
+package pishpesh.gozapp.Entities;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

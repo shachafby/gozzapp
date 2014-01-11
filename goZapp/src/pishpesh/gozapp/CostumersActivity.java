@@ -1,7 +1,6 @@
 package pishpesh.gozapp;
 
 import java.util.Comparator;
-import java.util.List;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -15,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemLongClickListener;
+
+import pishpesh.gozapp.Entities.Costumer;
 
 public class CostumersActivity extends ListActivity {
 
@@ -74,8 +75,6 @@ public class CostumersActivity extends ListActivity {
 				return false;
 			}
 		});
-
-
 	} 
 
 	@Override
